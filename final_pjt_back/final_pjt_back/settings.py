@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'articles',
     'finances',
     # ===== Extensions =====
-    'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -154,7 +153,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'accounts.User'
+# AUTH_USER_MODEL = 'accounts.User'
 
 
 # 외부 파일 저장소 설정
