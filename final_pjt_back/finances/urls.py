@@ -19,9 +19,12 @@ from . import views
 
 urlpatterns = [
     # GET: 정기예금 상품 및 옵션 저장
-    path('save-deposit-products/', views.save_deposits),
+    path('save-deposits/', views.save_deposits),
 
     # GET: 적금 상품 및 옵션 저장
-    path('save-savings-products/', views.save_savings),
+    path('save-installments/', views.save_installments),
+    
+    # GET: 적금 상품 및 옵션 저장
+    path('get_products_infos/', views.get_products_infos),
 
 ]

@@ -5,8 +5,13 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import DepositOptions, DepositProducts, InstallmentOptions, InstallmentProducts
-from .serializers import DepositOptionsSerializer, DepositProductsSerializer, SavingsOptionSerializer, InstallmentProductsSerializer
+from .models import (DepositOptions, DepositProducts, 
+                     InstallmentOptions, InstallmentProducts)
+from .serializers import (CombinedProductSerializer, 
+                          DepositOptionsSerializer,
+                          DepositProductsSerializer,
+                          InstallmentOptionsSerializer,
+                          InstallmentProductsSerializer)
 
 API_KEY = "cf2af1fd5c5757c7329be2745173eb9e"
 
@@ -88,6 +93,8 @@ def save_deposits(request):
             dcls_month=dcls_month,
             fin_co_no=fin_co_no,
             fin_prdt_cd=fin_prdt_cd,
+            intr_rate_type=intr_rate_type,
+            save_trm=save_trm,
         ).exists():
             continue
 
@@ -119,10 +126,9 @@ def save_deposits(request):
     
     return JsonResponse(data=rtn_data, status=status.HTTP_200_OK)
 
-
 # 정기 적금 상품
 @api_view(["GET"])
-def save_savings(request):
+def save_installments(request):
     # 데이터 가져오기
     params = {
         "auth": API_KEY,
@@ -197,6 +203,8 @@ def save_savings(request):
             dcls_month=dcls_month,
             fin_co_no=fin_co_no,
             fin_prdt_cd=fin_prdt_cd,
+            intr_rate_type=intr_rate_type,
+            save_trm=save_trm,
         ).exists():
             continue
 
@@ -213,7 +221,7 @@ def save_savings(request):
             "intr_rate2"        : intr_rate2,
         }
 
-        serializer = SavingsOptionSerializer(data=save_option_data)
+        serializer = InstallmentOptionsSerializer(data=save_option_data)
         if serializer.is_valid():
             product = InstallmentProducts.objects.get(
                 dcls_month=dcls_month,
@@ -230,3 +238,26 @@ def save_savings(request):
     
     return JsonResponse(data=rtn_data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def get_products_infos(request):
+    # 예/적금 데이터 쿼리, FK로 연결된 옵션 데이터도 prefetch
+    deposit_products = DepositProducts.objects.prefetch_related('options').all()
+    installment_products = InstallmentProducts.objects.prefetch_related('options').all()
+    
+    deposit_data = CombinedProductSerializer(deposit_products, many=True).data
+    installment_data = CombinedProductSerializer(installment_products, many=True).data
+
+    data = dict()
+    status_info = None
+    
+    if deposit_data or installment_data:
+        data['status'] = 'success'
+        data['data'] = deposit_data + installment_data
+        status_info = status.HTTP_200_OK
+    else:
+        data['status'] = 'error'
+        data['message'] = 'DB에 데이터가 없습니다.'
+        status_info = status.HTTP_404_NOT_FOUND
+    
+    return JsonResponse(data=data, status=status_info)    
+    
