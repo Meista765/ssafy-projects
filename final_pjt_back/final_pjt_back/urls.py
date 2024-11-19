@@ -23,9 +23,18 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     
+    # 게시판
+    path('articles/', include('articles.urls')),
 
     # 금융 상품 관련
     path('finances/', include('finances.urls')),
+
+    # 회원생성
+    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+
+    # 로그인 및 로그아웃
+    path('accounts/', include('dj_rest_auth.urls'))
+
 
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
