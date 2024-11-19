@@ -14,27 +14,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # 게시판
-    path('articles/', include('articles.urls')),
-
-    # 금융 상품 관련
-    path('finances/', include('finances.urls')),
-
-    # 회원생성
-    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
-
-    # 로그인 및 로그아웃
-    path('accounts/', include('dj_rest_auth.urls'))
-
-
-    
+    path('articles/', include('articles.urls')),                          # 게시판
+    path('finances/', include('finances.urls')),                          # 금융 상품 관련
+    path('accounts/signup/', include('dj_rest_auth.registration.urls')),  # 회원생성
+    path('accounts/', include('dj_rest_auth.urls')),                      # 로그인 및 로그아웃
+    path("finances/", include("finances.urls")),                          # 금융 상품 관련
+    path("exchange-rates/", include("exchange_rates.urls")),              # 환율 정보 관련
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

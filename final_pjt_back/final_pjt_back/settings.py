@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'accounts',
     'articles',
     'finances',
+    'exchange_rates',
     # ===== Extensions =====
     'rest_framework',
     'rest_framework.authtoken',
