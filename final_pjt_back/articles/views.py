@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 
 from django.shortcuts import get_list_or_404, get_object_or_404
 from .models import Article, Comment
-from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerializer
+from .serializers import ArticleListSerializer, ArticleSerializer, ArticleDetailSerializer,CommentSerializer
 
 
 # 게시글 전체 조회 및 생성
@@ -27,12 +27,15 @@ def article_list(request):
 
 # 게시글 상세 조회
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticatedOrReadOnly])
+# @permission_classes([IsAuthenticatedOrReadOnly])
 def article_detail(request,article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     
     if request.method == 'GET':
-        serializer = ArticleSerializer(article)
+        serializer = ArticleDetailSerializer(article)
+        print(request.user)
+        print('=======')
+        print(article.user)
         return Response(serializer.data)
     
     elif request.method == 'DELETE':
@@ -69,5 +72,5 @@ def comment_create(request, article_pk):
 
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save(article=article)
+        serializer.save(article=article, user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
