@@ -252,10 +252,11 @@ def get_products_infos(request):
     
     if deposit_data or installment_data:
         data['status'] = 'success'
-        data['data'] = deposit_data + installment_data
+        data['prdt_data'] = deposit_data + installment_data
         status_info = status.HTTP_200_OK
     else:
         data['status'] = 'error'
+        data['prdt_data'] = []
         data['message'] = 'DB에 데이터가 없습니다.'
         status_info = status.HTTP_404_NOT_FOUND
     

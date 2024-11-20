@@ -1,43 +1,24 @@
-// Vue.js
-import App from './App.vue'; // 루트 컴포넌트
-import { createApp } from 'vue'; // Vue 3 앱 생성
+// bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-// Pinia
-import { createPinia } from 'pinia'; // Pinia 상태 관리
-import piniaPersistedState from 'pinia-plugin-persistedstate'; // Pinia 상태 유지 플러그인
+// app
+import App from './App.vue'
+import { createApp } from 'vue'
 
-// Vuetify
-import { createVuetify } from 'vuetify'; // Vuetify 프레임워크
-import { aliases, mdi } from 'vuetify/lib/iconsets/mdi'; // Material Design Icons
-import 'vuetify/styles'; // Vuetify 스타일
-import '@mdi/font/css/materialdesignicons.css'; // Material Design Icons CSS
+// router
+import router from './router'
 
-// Vuetify 설정
-const vuetify = createVuetify({
-  icons: {
-    defaultSet: 'mdi',
-    aliases,
-    sets: { mdi },
-  },
-  theme: {
-    defaultTheme: 'light', // 기본 테마 설정 (light/dark)
-    themes: {
-      light: {
-        colors: {
-          primary: '#1976D2', // 기본 primary 색상
-          secondary: '#424242', // 기본 secondary 색상
-        },
-      },
-    },
-  },
-});
+// pinia
+import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
-// Pinia 설정
-const pinia = createPinia();
-pinia.use(piniaPersistedState); // Pinia에 플러그인 적용
+const app = createApp(App)
+const pinia = createPinia()
 
-// Vue 앱 생성 및 마운트
-const app = createApp(App);
-app.use(pinia); // Pinia 사용
-app.use(vuetify); // Vuetify 사용
-app.mount('#app'); // 앱 마운트
+pinia.use(piniaPluginPersistedstate)
+
+app.use(pinia)
+app.use(router)
+
+app.mount('#app')

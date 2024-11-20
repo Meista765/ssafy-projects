@@ -1,80 +1,91 @@
 <template>
-  <v-app>
-    <v-container>
-      <v-data-table
-        :headers="headers"
-        :items="tableData"
-        sort-by="kor_co_nm"
-        class="elevation-1"
-      >
-        <template #item="{ item }">
-          <tr>
-            <td>{{ item.dcls_month }}</td>
-            <td>{{ item.kor_co_nm }}</td>
-            <td>{{ item.fin_prdt_nm }}</td>
-            <td>{{ item.intr_rate_6 }}</td>
-            <td>{{ item.intr_rate_12 }}</td>
-            <td>{{ item.intr_rate_24 }}</td>
-            <td>{{ item.intr_rate_36 }}</td>
-          </tr>
-        </template>
-      </v-data-table>
-    </v-container>
-  </v-app>
+  <div class="container mt-4">
+    <h2 class="text-center">금융 정보</h2>
+    <table class="table table-bordered table-striped mt-4">
+      <thead>
+        <tr>
+          <th>공시 제출월</th>
+          <th>금융회사 명</th>
+          <th>상품 명</th>
+          <th colspan="4" class="text-center">저축기간 별 금리</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th @click="sortBy('6')">6개월</th>
+          <th @click="sortBy('12')">12개월</th>
+          <th @click="sortBy('24')">24개월</th>
+          <th @click="sortBy('36')">36개월</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(product, index) in sortedProducts" :key="index">
+          <td>{{ product.dcls_month || '-' }}</td>
+          <td>{{ product.kor_co_nm || '-' }}</td>
+          <td>{{ product.fin_prdt_nm || '-' }}</td>
+          <td>{{ getInterestRate(product.options, 6) }}</td>
+          <td>{{ getInterestRate(product.options, 12) }}</td>
+          <td>{{ getInterestRate(product.options, 24) }}</td>
+          <td>{{ getInterestRate(product.options, 36) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { createVuetify } from 'vuetify'
-import 'vuetify/styles'
+import { computed, ref } from 'vue';
+import { useFinanceStore } from '@/stores/financialProduct';
 
-// Vuetify 인스턴스를 생성합니다
-const vuetify = createVuetify()
+const store = useFinanceStore();
 
-// JSON 데이터 로드
-const rawData = require('@/assets/response.json').data
+// Fetch financial products on mount
+store.getExchangeRate();
 
-// 데이터 변환 로직
-const transformData = (data) =>
-  data.map((item) => {
-    const findRate = (term) => {
-      const option = item.options.find((opt) => opt.save_trm === term)
-      return option && option.intr_rate !== '-1' ? option.intr_rate : '-'
-    }
+const sortColumn = ref(null);
+const sortDirection = ref(0); // 0: no sort, 1: ascending, -1: descending
 
-    return {
-      dcls_month: item.dcls_month,
-      kor_co_nm: item.kor_co_nm,
-      fin_prdt_nm: item.fin_prdt_nm,
-      intr_rate_6: findRate(6),
-      intr_rate_12: findRate(12),
-      intr_rate_24: findRate(24),
-      intr_rate_36: findRate(36),
-    }
-  })
+const sortedProducts = computed(() => {
+  if (!sortColumn.value) return store.financialProducts;
 
-const tableData = ref(transformData(rawData))
+  return [...store.financialProducts].sort((a, b) => {
+    const rateA = getInterestRate(a.options, sortColumn.value, true);
+    const rateB = getInterestRate(b.options, sortColumn.value, true);
 
-const headers = ref([
-  { text: '공시 제출월', value: 'dcls_month' },
-  { text: '금융회사 명', value: 'kor_co_nm' },
-  { text: '상품 명', value: 'fin_prdt_nm' },
-  {
-    text: '저축기간 별 금리',
-    align: 'start',
-    sortable: false,
-    children: [
-      { text: '6개월', value: 'intr_rate_6', sortable: true },
-      { text: '12개월', value: 'intr_rate_12', sortable: true },
-      { text: '24개월', value: 'intr_rate_24', sortable: true },
-      { text: '36개월', value: 'intr_rate_36', sortable: true },
-    ],
-  },
-])
+    // Handle '-' values: they always go to the end
+    if (rateA === '-') return sortDirection.value;
+    if (rateB === '-') return -sortDirection.value;
+
+    return (rateA - rateB) * sortDirection.value;
+  });
+});
+
+// Get interest rate based on saving term
+function getInterestRate(options, term, raw = false) {
+  const option = options?.find(opt => opt.save_trm == term);
+  const rate = option?.intr_rate ?? -1;
+  if (raw) return rate === -1 ? '-' : rate;
+  return rate === -1 ? '-' : `${rate}%`;
+}
+
+// Toggle sorting on column
+function sortBy(term) {
+  if (sortColumn.value === term) {
+    sortDirection.value = sortDirection.value === 1 ? -1 : (sortDirection.value === -1 ? 0 : 1);
+  } else {
+    sortColumn.value = term;
+    sortDirection.value = 1; // Default to ascending
+  }
+}
 </script>
 
 <style scoped>
-.v-data-table th {
-  font-weight: bold;
+.table th {
+  cursor: pointer;
+}
+
+.table th:hover {
+  background-color: #f8f9fa;
 }
 </style>

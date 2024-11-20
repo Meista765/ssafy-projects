@@ -11,7 +11,7 @@ const router = createRouter({
       component: CurrencyConverterView,
     },
     {
-      path: '/financial',
+      path: '/finance',
       name: 'financialInformation',
       component: FinancialInformationView,
     },
