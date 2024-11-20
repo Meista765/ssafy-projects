@@ -22,7 +22,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("finances/", include("finances.urls")),                # 금융 상품 관련
-    path("exchange-rates/", include("exchange_rates.urls")),    # 환율 정보 관련
+    path('admin/', admin.site.urls),
+    path('articles/', include('articles.urls')),                          # 게시판
+    path('finances/', include('finances.urls')),                          # 금융 상품 관련
+    path('accounts/signup/', include('dj_rest_auth.registration.urls')),  # 회원생성
+    path('accounts/', include('dj_rest_auth.urls')),                      # 로그인 및 로그아웃
+    path("finances/", include("finances.urls")),                          # 금융 상품 관련
+    path("exchange-rates/", include("exchange_rates.urls")),              # 환율 정보 관련
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
