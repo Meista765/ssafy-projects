@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <router-link :to="{ name: 'exchangeRateCalculator' }">환율 계산기</router-link>
+    <router-link :to="{ name: 'currencyConverter' }">환율 계산기</router-link>
   </nav>
 
   <div>
