@@ -2,7 +2,7 @@
   <div>
     <nav v-if="authStore.isLogin">
       <form @submit.prevent="logOut">
-        <router-link :to="{ name: 'exchangeRateCalculator' }">환율 계산기</router-link> |
+        <router-link :to="{ name: 'currencyConverter' }">환율 계산기</router-link> |
 
         <input type="submit" value="로그아웃"> | 
         <router-link :to="{ name: 'ArticleView' }">게시판</router-link> 

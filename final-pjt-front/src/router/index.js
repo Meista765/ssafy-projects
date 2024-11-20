@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import ExchangeRateView from '@/views/ExchangeRateView.vue'
+import CurrencyConverterView from '@/views/CurrencyConverterView.vue'
 import ArticleView from '@/views/Article/ArticleView.vue'
 import DetailView from '@/views/Article/DetailView.vue'
 import CreateView from '@/views/Article/CreateView.vue'
