@@ -284,3 +284,9 @@ yarn-error.log
 # End of https://www.toptal.com/developers/gitignore/api/python,django,vue,vuejs
 
 /*.csv
+
+# Ignore all migrations folders
+**/migrations/*
+
+# Do not ignore the __init__.py file in migrations folders
+!**/migrations/__init__.py
