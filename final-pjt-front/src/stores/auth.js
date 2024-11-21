@@ -6,6 +6,7 @@ export const useAuthStore = defineStore('auth', () => {
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
   const router = useRouter()
+  const userInfo = ref(null)
   const isLogin = computed(() => {
     if (token.value === null) {
       return false
@@ -13,7 +14,23 @@ export const useAuthStore = defineStore('auth', () => {
       return true
     }
   })
-
+  // 유저 정보 요청 액션
+  const getUserInfo = function (userPk) {
+    axios({
+      method: 'get',
+      url: `${API_URL}/user/detail/${userPk}/`,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+      .then((res) => {
+        console.log(res)
+        userInfo.value = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   // 회원가입 요청 액션
   const signUp = function (payload) {
@@ -70,7 +87,26 @@ export const useAuthStore = defineStore('auth', () => {
         console.log(err)
       })
   }
-    return { signUp, logIn, token, isLogin, logOut }
+
+  // 회원 탈퇴 요청 액션
+  const signOut = function (userPk) {
+    axios({
+      method: 'delete',
+      url: `${API_URL}/user/detail/${userPk}`,
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+    })
+      .then((res) => {
+        token.value = null
+        userInfo.value = null
+        router.push({ name: 'ArticleView' })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+    return { signUp, logIn, token, isLogin, logOut, API_URL, getUserInfo, userInfo, signOut }
   },
   { persist: true }
 )

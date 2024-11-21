@@ -94,7 +94,7 @@ const updatedCommentContent = ref('')
 const getCurrentUser = function () {
   axios({
     method:'get',
-    url: `${articleStore.API_URL}/current-user/`,
+    url: `${articleStore.API_URL}/user/`,
     headers: {
       Authorization: `Token ${authStore.token}`
     }
