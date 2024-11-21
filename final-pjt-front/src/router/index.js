@@ -7,6 +7,7 @@ import CreateView from '@/views/Article/CreateView.vue'
 import SignUpView from '@/views/Auth/SignUpView.vue'
 import LoginView from '@/views/Auth/LoginView.vue'
 import { useAuthStore } from '@/stores/auth'
+import ProFileView from '@/views/Auth/ProFileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,7 +45,12 @@ const router = createRouter({
       path:'/login',
       name: 'LoginView',
       component: LoginView
-    }
+    },
+    {
+      path:'/profile/:id',
+      name: 'ProFileView',
+      component: ProFileView
+    },
   ],
 })
 router.beforeEach((to, from) => {
