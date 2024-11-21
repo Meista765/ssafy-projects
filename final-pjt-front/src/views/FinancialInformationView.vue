@@ -1,41 +1,36 @@
 <template>
-  <div class="container mt-4">
-    <h2 class="text-center">금융 정보</h2>
-    <table class="table table-bordered table-striped mt-4">
-      <thead>
-        <tr>
-          <th>공시 제출월</th>
-          <th>금융회사 명</th>
-          <th>상품 명</th>
-          <th colspan="4" class="text-center">저축기간 별 금리</th>
-        </tr>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th @click="sortBy('6')">6개월</th>
-          <th @click="sortBy('12')">12개월</th>
-          <th @click="sortBy('24')">24개월</th>
-          <th @click="sortBy('36')">36개월</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(product, index) in sortedProducts" :key="index">
-          <td>{{ product.dcls_month || '-' }}</td>
-          <td>{{ product.kor_co_nm || '-' }}</td>
-          <td>{{ product.fin_prdt_nm || '-' }}</td>
-          <td>{{ getInterestRate(product.options, 6) }}</td>
-          <td>{{ getInterestRate(product.options, 12) }}</td>
-          <td>{{ getInterestRate(product.options, 24) }}</td>
-          <td>{{ getInterestRate(product.options, 36) }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <v-container>
+    <v-card class="mt-4 pa-4">
+      <v-card-title class="text-h4 text-center mb-4">
+        금융 정보
+      </v-card-title>
+
+      <v-data-table
+        :headers="headers"
+        :items="store.financialProducts"
+        :sort-by="[{ key: 'rate6', order: 'desc' }]"
+        density="comfortable"
+        hover
+        class="elevation-1"
+      >
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.dcls_month || '-' }}</td>
+            <td>{{ item.kor_co_nm || '-' }}</td>
+            <td>{{ item.fin_prdt_nm || '-' }}</td>
+            <td class="text-center">{{ getInterestRate(item.options, 6) }}</td>
+            <td class="text-center">{{ getInterestRate(item.options, 12) }}</td>
+            <td class="text-center">{{ getInterestRate(item.options, 24) }}</td>
+            <td class="text-center">{{ getInterestRate(item.options, 36) }}</td>
+          </tr>
+        </template>
+      </v-data-table>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useFinanceStore } from '@/stores/financialProduct';
 
 const store = useFinanceStore();
@@ -43,49 +38,74 @@ const store = useFinanceStore();
 // Fetch financial products on mount
 store.getExchangeRate();
 
-const sortColumn = ref(null);
-const sortDirection = ref(0); // 0: no sort, 1: ascending, -1: descending
-
-const sortedProducts = computed(() => {
-  if (!sortColumn.value) return store.financialProducts;
-
-  return [...store.financialProducts].sort((a, b) => {
-    const rateA = getInterestRate(a.options, sortColumn.value, true);
-    const rateB = getInterestRate(b.options, sortColumn.value, true);
-
-    // Handle '-' values: they always go to the end
-    if (rateA === '-') return sortDirection.value;
-    if (rateB === '-') return -sortDirection.value;
-
-    return (rateA - rateB) * sortDirection.value;
-  });
-});
+const headers = [
+  { 
+    title: '공시 제출월',
+    key: 'dcls_month',
+    align: 'start',
+    sortable: true,
+    width: '15%',
+  },
+  {
+    title: '금융회사',
+    key: 'kor_co_nm',
+    align: 'start',
+    sortable: true,
+    width: '15%',
+  },
+  {
+    title: '상품명',
+    key: 'fin_prdt_nm',
+    align: 'start',
+    sortable: true,
+    width: '25%',
+  },
+  {
+    title: '6개월',
+    key: 'rate6',
+    align: 'center',
+    sortable: true,
+    width: '11.25%',
+  },
+  {
+    title: '12개월',
+    key: 'rate12',
+    align: 'center',
+    sortable: true,
+    width: '11.25%',
+  },
+  {
+    title: '24개월',
+    key: 'rate24',
+    align: 'center',
+    sortable: true,
+    width: '11.25%',
+  },
+  {
+    title: '36개월',
+    key: 'rate36',
+    align: 'center',
+    sortable: true,
+    width: '11.25%',
+  },
+];
 
 // Get interest rate based on saving term
-function getInterestRate(options, term, raw = false) {
+function getInterestRate(options, term) {
   const option = options?.find(opt => opt.save_trm == term);
   const rate = option?.intr_rate ?? -1;
-  if (raw) return rate === -1 ? '-' : rate;
   return rate === -1 ? '-' : `${rate}%`;
-}
-
-// Toggle sorting on column
-function sortBy(term) {
-  if (sortColumn.value === term) {
-    sortDirection.value = sortDirection.value === 1 ? -1 : (sortDirection.value === -1 ? 0 : 1);
-  } else {
-    sortColumn.value = term;
-    sortDirection.value = 1; // Default to ascending
-  }
 }
 </script>
 
 <style scoped>
-.table th {
-  cursor: pointer;
+:deep(.v-data-table-header) {
+  background-color: rgb(var(--v-theme-primary));
 }
 
-.table th:hover {
-  background-color: #f8f9fa;
+:deep(.v-data-table-header th) {
+  color: white !important;
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
 }
 </style>
