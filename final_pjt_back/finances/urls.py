@@ -18,10 +18,13 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # 정기예금 상품 및 옵션 저장
-    path('save-deposit-products/', views.save_deposit_products),
+    # GET: 정기예금 상품 및 옵션 저장
+    path('save-deposits/', views.save_deposits),
 
-    # 적금 상품 및 옵션 저장
-    path('save-savings-products/', views.save_savings_products),
+    # GET: 적금 상품 및 옵션 저장
+    path('save-installments/', views.save_installments),
+    
+    # GET: 적금 상품 및 옵션 저장
+    path('get_products_infos/', views.get_products_infos),
 
 ]
