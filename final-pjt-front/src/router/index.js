@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CurrencyConverterView from '@/views/CurrencyConverterView.vue'
+import BankMapView from '@/views/BankMapView.vue'
 import ArticleView from '@/views/Article/ArticleView.vue'
 import DetailView from '@/views/Article/DetailView.vue'
 import CreateView from '@/views/Article/CreateView.vue'
@@ -16,6 +17,10 @@ const router = createRouter({
       component: CurrencyConverterView,
     },
     {
+      path: '/find-nearest-bank',
+      name: 'findNearestBank',
+      component: BankMapView,
+    },
       path: '/articles',
       name: 'ArticleView',
       component: ArticleView
