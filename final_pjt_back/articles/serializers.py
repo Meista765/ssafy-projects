@@ -16,7 +16,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('content', 'username', 'updated_at', 'user_id')
+        fields = ('content', 'username', 'updated_at', 'user_id', 'id')
 
 
 # 게시글 상세 조회
