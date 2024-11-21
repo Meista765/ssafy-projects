@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="map" style="width:100%;height:500px;"></div>
+    <div id="map" class="map-container"></div>
   </div>
 </template>
 
@@ -160,9 +160,10 @@ const clearOverlays = () => {
 </script>
 
 <style scoped>
-#map {
-  margin-top: 20px;
-  border-radius: 8px;
+.map-container {
+  width: 100%;
+  height: 700px;
+  border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>

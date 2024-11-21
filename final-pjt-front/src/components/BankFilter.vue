@@ -1,32 +1,46 @@
 <template>
-  <!-- 검색 폼 -->
   <form @submit.prevent="handleSearch">
-    <div class="d-flex flex-column">
+    <v-container>
       <!-- 광역시/도 선택 -->
-      <label for="province">광역시 / 도</label>
-      <select v-model="selectedProvince" name="province" id="province">
-        <option v-for="(cities, province) in districts" :key="province" :value="province">
-          {{ province }}
-        </option>
-      </select>
+      <v-select
+        v-model="selectedProvince"
+        :items="Object.keys(districts)"
+        label="광역시 / 도"
+        variant="outlined"
+        density="comfortable"
+        class="mb-4"
+      ></v-select>
 
       <!-- 시/군/구 선택 -->
-      <label for="city">시 / 군 / 구</label>
-      <select v-model="selectedCity" name="city" id="city" :disabled="!selectedProvince">
-        <option v-for="city in districts[selectedProvince]" :key="city" :value="city">
-          {{ city }}
-        </option>
-      </select>
+      <v-select
+        v-model="selectedCity"
+        :items="districts[selectedProvince]"
+        label="시 / 군 / 구"
+        variant="outlined"
+        density="comfortable"
+        class="mb-4"
+        :disabled="!selectedProvince"
+      ></v-select>
 
       <!-- 은행 브랜드 선택 -->
-      <label for="brand">은행 브랜드</label>
-      <select v-model="selectedBank" name="brand" id="brand">
-        <option v-for="bank in banksList.banks" :key="bank" :value="bank">
-          {{ bank }}
-        </option>
-      </select>
-      <button type="submit">찾기</button>
-    </div>
+      <v-select
+        v-model="selectedBank"
+        :items="banksList.banks"
+        label="은행 브랜드"
+        variant="outlined"
+        density="comfortable"
+        class="mb-4"
+      ></v-select>
+
+      <v-btn
+        type="submit"
+        color="primary"
+        block
+        class="mt-2"
+      >
+        찾기
+      </v-btn>
+    </v-container>
   </form>
 </template>
 
