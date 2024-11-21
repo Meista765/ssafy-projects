@@ -1,7 +1,18 @@
+import os
+import environ
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# django-environ 설정
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+DEBUG = env('DEBUG')
+
+FINLIFE_API_KEY = env('FINLIFE_API_KEY')
 
 # ==========================================================
 # CORE SETTINGS
