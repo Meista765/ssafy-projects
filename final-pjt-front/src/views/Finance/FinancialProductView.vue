@@ -13,6 +13,6 @@ import FinancialProductTable from '@/components/finance/FinancialProductTable.vu
 const financeStore = useFinanceStore()
 
 onMounted(() => {
-  financeStore.getExchangeRate()
+  financeStore.getFinancialProducts()
 })
 </script> 

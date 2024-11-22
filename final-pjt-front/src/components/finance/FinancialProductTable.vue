@@ -1,11 +1,6 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="processedProducts"
-    :sort-by="sortBy"
-    :sort-desc="sortDesc"
-    class="elevation-1"
-  >
+  <v-data-table :headers="headers" :items="processedProducts" :sort-by="sortBy" :sort-desc="sortDesc"
+    class="elevation-1" @click:row="handleRowClick">
     <template v-slot:item.dcls_month="{ item }">
       {{ formatMonth(item.dcls_month) }}
     </template>
@@ -13,10 +8,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useFinanceStore } from '@/stores/financialProduct'
+import { useFinanceStore } from '@/stores/financialProduct';
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const financeStore = useFinanceStore()
+const router = useRouter()
 
 // 테이블 헤더 정의
 const headers = [
@@ -44,6 +41,8 @@ const processedProducts = computed(() => {
   return financeStore.financialProducts.map(product => {
     // 기본 상품 정보
     const baseInfo = {
+      unique_id: product.unique_id,
+      category: product.category,
       dcls_month: product.dcls_month,
       kor_co_nm: product.kor_co_nm,
       fin_prdt_nm: product.fin_prdt_nm,
@@ -55,7 +54,7 @@ const processedProducts = computed(() => {
 
     // 옵션에서 각 기간별 금리 정보 추출
     product.options?.forEach(opt => {
-      switch(opt.save_trm) {
+      switch (opt.save_trm) {
         case 6:
           baseInfo.intr_rate_6 = opt.intr_rate
           break
@@ -74,4 +73,12 @@ const processedProducts = computed(() => {
     return baseInfo
   })
 })
+
+const handleRowClick = (event, product) => {
+  router.push({
+    name: 'FinancialProductDetail',
+    params: { productUniqueId: product.item.unique_id }
+  })
+}
+
 </script>

@@ -6,9 +6,10 @@ export const useFinanceStore = defineStore(
   'Finance',
   () => {
     const financialProducts = ref([])
+    const selectedProduct = ref(null)
     const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
 
-    const getExchangeRate = () => {
+    const getFinancialProducts = () => {
       axios({
         method: 'get',
         url: `${BACKEND_SERVER_URL}/finances/get_products_infos/`
@@ -19,7 +20,21 @@ export const useFinanceStore = defineStore(
         .catch((err) => console.log(err))
     }
 
-    return { financialProducts, getExchangeRate }
+    const getProductDetail = (productUniqueId) => {
+      const product = financialProducts.value.find(product => product.unique_id === productUniqueId)
+      if (product) {
+        selectedProduct.value = product
+      } else {
+        console.log('상품을 찾을 수 없습니다.')
+      }
+    }
+
+    return { 
+      financialProducts, 
+      selectedProduct,
+      getFinancialProducts,
+      getProductDetail
+    }
   },
   { persist: true }
 )
