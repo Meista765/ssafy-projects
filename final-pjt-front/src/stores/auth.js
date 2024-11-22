@@ -73,7 +73,8 @@ export const useAuthStore = defineStore('auth', () => {
     BACKEND_SERVER_URL,
     signUp,
     logIn,
-    logOut
+    logOut,
+
   }
 }, {
   persist: true
