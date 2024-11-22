@@ -5,7 +5,12 @@
     <v-btn :to="{ name: 'financialInformation' }">예적금 정보</v-btn>
 
     <template v-if="authStore.isLogin">
-      <v-btn :to="{ name: 'ProFileView', params: { id: userId }}">프로필</v-btn>
+      <v-btn 
+        v-if="userId" 
+        :to="{ name: 'ProFileView', params: { id: userId }}"
+      >
+        프로필
+      </v-btn>
       <v-btn @click="logOut">로그아웃</v-btn>
     </template>
     <template v-else>

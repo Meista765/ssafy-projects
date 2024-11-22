@@ -17,7 +17,7 @@ import LoginView from '@/views/Auth/LoginView.vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 import ProFileView from '@/views/Auth/ProFileView.vue'
-import FinancialInformationView from '@/views/FinancialInformationView.vue'
+import FinancialInformationView from '@/views/Finance/FinancialInformationView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

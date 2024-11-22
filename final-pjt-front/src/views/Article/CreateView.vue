@@ -1,39 +1,69 @@
 <template>
-  <div>
-    <h1>글 작성하기</h1>
-    <form @submit.prevent="createArticle">
-      <div>
-        <label for="title">제목 : </label>
-        <input type="text" id="title" v-model.trim="title">
-      </div>
+  <v-container class="py-8">
+    <v-row justify="center">
+      <v-col cols="12" sm="8" md="6">
+        <v-card class="pa-6">
+          <h1 class="text-h4 mb-6 text-center">글 작성하기</h1>
+          
+          <v-form @submit.prevent="createArticle">
+            <v-text-field
+              v-model="title"
+              label="제목"
+              variant="outlined"
+              :rules="[v => !!v || '제목을 입력해주세요']"
+              required
+            ></v-text-field>
 
-      <div>
-        <label for="content">내용 : </label>
-        <textarea id="content" v-model.trim="content"></textarea>
-      </div>
+            <v-textarea
+              v-model="content"
+              label="내용"
+              variant="outlined"
+              :rules="[v => !!v || '내용을 입력해주세요']"
+              required
+              rows="10"
+              class="mt-4"
+            ></v-textarea>
 
-      <input type="submit">
-    </form>
-  </div>
+            <v-row class="mt-4" justify="center">
+              <v-col cols="auto">
+                <v-btn
+                  type="submit"
+                  color="primary"
+                  size="large"
+                  prepend-icon="mdi-send"
+                >
+                  작성완료
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useArticleStore } from '@/stores/article';
-import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { ref } from 'vue'
+import { useArticleStore } from '@/stores/article'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 
-const title = ref(null)
-const content = ref(null)
+const title = ref('')
+const content = ref('')
 const router = useRouter()
 const articleStore = useArticleStore()
 const authStore = useAuthStore()
 
 const createArticle = function () {
+  if (!title.value || !content.value) {
+    return
+  }
+
   axios({
-    method:'post',
-    url:`${articleStore.API_URL}/articles/`,
+    method: 'post',
+    url: `${articleStore.API_URL}/articles/`,
     data: {
       title: title.value,
       content: content.value
@@ -44,14 +74,12 @@ const createArticle = function () {
   })
     .then((res) => {
       console.log(res.data)
-      router.push({name:'ArticleView'})
+      router.push({name: 'ArticleView'})
     })
     .catch((err) => {
       console.log(err)
     })
 }
-
-
 </script>
 
 <style scoped>
