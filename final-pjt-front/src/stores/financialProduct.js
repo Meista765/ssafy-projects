@@ -5,13 +5,14 @@ import { ref } from 'vue'
 export const useFinanceStore = defineStore(
   'Finance',
   () => {
-    
     const financialProducts = ref([])
-    const serverUrl = 'http://localhost:8000/finances/get_products_infos/'
+    const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
 
     const getExchangeRate = () => {
-      axios
-        .get(serverUrl)
+      axios({
+        method: 'get',
+        url: `${BACKEND_SERVER_URL}/finances/get_products_infos/`
+      })
         .then(res => {
           financialProducts.value = res.data.prdt_data
         })

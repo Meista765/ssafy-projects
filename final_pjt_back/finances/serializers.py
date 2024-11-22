@@ -57,3 +57,11 @@ class CombinedProductSerializer(serializers.Serializer):
             'fin_prdt_nm': instance.fin_prdt_nm,
             'options': OptionSerializer(options, many=True).data,
         }
+
+# 예금 상세 정보 시리얼라이저
+class DepositDetailSerializer(serializers.ModelSerializer):
+    options = DepositOptionsSerializer(many=True)
+    
+    class Meta:
+        model = DepositProducts
+        fields = '__all__'

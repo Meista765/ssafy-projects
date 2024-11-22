@@ -17,7 +17,7 @@ import LoginView from '@/views/Auth/LoginView.vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 import ProFileView from '@/views/Auth/ProFileView.vue'
-import FinancialInformationView from '@/views/Finance/FinancialInformationView.vue'
+import FinancialProductView from '@/views/Finance/FinancialProductView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,9 +29,9 @@ const router = createRouter({
       component: CurrencyConverterView,
     },
     {
-      path: '/finance',
-      name: 'financialInformation',
-      component: FinancialInformationView,
+      path: '/financial-product',
+      name: 'FinancialProduct',
+      component: FinancialProductView
     },
     {
       path: '/find-nearest-bank',

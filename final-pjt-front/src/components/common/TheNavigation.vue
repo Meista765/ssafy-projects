@@ -2,7 +2,7 @@
   <v-container>
     <v-btn :to="{ name: 'CurrencyConverter' }">환율 계산기</v-btn>
     <v-btn :to="{ name: 'findNearestBank' }">가까운 은행 찾기</v-btn>
-    <v-btn :to="{ name: 'financialInformation' }">예적금 정보</v-btn>
+    <v-btn :to="{ name: 'FinancialProduct' }">금융상품 정보</v-btn>
 
     <template v-if="authStore.isLogin">
       <v-btn 

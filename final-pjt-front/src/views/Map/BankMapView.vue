@@ -27,8 +27,8 @@
 </template>
 
 <script setup>
-import KakaoMap from '@/components/KakaoMap.vue'
-import BankFilter from '@/components/BankFilter.vue'
+import KakaoMap from '@/components/map/KakaoMap.vue'
+import BankFilter from '@/components/map/BankFilter.vue'
 import { ref } from 'vue'
 
 const searchParams = ref({})
