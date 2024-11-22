@@ -6,11 +6,13 @@ export const useExchangeRateStore = defineStore(
   'exchangeRate',
   () => {
     const exchangeRates = ref([])
-    const server_url = 'http://localhost:8000/exchange-rates/'
+    const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
 
     const getExchangeRate = () => {
-      axios
-        .get(server_url)
+      axios({
+        method: 'get',
+        url: `${BACKEND_SERVER_URL}/exchange-rates/`
+      })
         .then(res => {
           exchangeRates.value = res.data.exchange_rates_data
         })

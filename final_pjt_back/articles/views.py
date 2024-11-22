@@ -25,7 +25,9 @@ def article_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-# 게시글 상세 조회
+# GET: 게시글 상세 조회
+# DELETE: 게시글 삭제
+# PUT: 게시글 수정 
 @api_view(['GET', 'PUT', 'DELETE'])
 # @permission_classes([IsAuthenticatedOrReadOnly])
 def article_detail(request,article_pk):

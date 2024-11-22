@@ -17,58 +17,74 @@ import LoginView from '@/views/Auth/LoginView.vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 import ProFileView from '@/views/Auth/ProFileView.vue'
-import FinancialInformationView from '@/views/FinancialInformationView.vue'
+import FinancialProductView from '@/views/Finance/FinancialProductView.vue'
+import FinancialProductDetailView from '@/views/Finance/FinancialProductDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // 메인 기능 라우트
+    // 1. 메인 기능 라우트
+    // 환율 계산기
     {
       path: '/currency-converter',
       name: 'CurrencyConverter',
       component: CurrencyConverterView,
     },
+    // 금융 상품 목록
     {
-      path: '/finance',
-      name: 'financialInformation',
-      component: FinancialInformationView,
+      path: '/financial-product',
+      name: 'FinancialProduct',
+      component: FinancialProductView
     },
+    // 금융 상품 상세
+    {
+      path: '/financial-product/:productUniqueId',
+      name: 'FinancialProductDetail',
+      component: FinancialProductDetailView
+    },
+    // 은행 지도
     {
       path: '/find-nearest-bank',
       name: 'findNearestBank',
       component: BankMapView,
     },
 
-    // 게시판 관련 라우트
+    // 2. 게시판 관련 라우트
+    // 게시글 목록
     {
       path: '/articles',
       name: 'ArticleView',
       component: ArticleView
     },
+    // 게시글 상세
     {
       path: '/articles/:id',
       name: 'DetailView',
       component: DetailView
     },
+    // 게시글 작성
     {
       path: '/create',
       name: 'CreateView',
       component: CreateView
     },
 
-    // 인증 관련 라우트
+    // 3. 인증 관련 라우트
+    // 회원가입
     {
       path: '/signup',
       name: 'SignUpView',
       component: SignUpView,
     },
+    // 로그인
     {
       path: '/login',
       name: 'LoginView',
       component: LoginView
     },
+    // 프로필
     {
-      path:'/profile/:id',
+      path: '/profile/:id',
       name: 'ProFileView',
       component: ProFileView
     },

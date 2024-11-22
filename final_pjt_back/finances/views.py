@@ -11,15 +11,18 @@ from rest_framework.decorators import api_view
 from .models import (
     DepositOptions,
     DepositProducts,
+
     InstallmentOptions,
     InstallmentProducts,
 )
 from .serializers import (
-    CombinedProductSerializer,
-    DepositOptionsSerializer,
     DepositProductsSerializer,
-    InstallmentOptionsSerializer,
+    DepositOptionsSerializer,
+    DepositDetailSerializer,
+
     InstallmentProductsSerializer,
+    InstallmentOptionsSerializer,
+    InstallmentDetailSerializer,
 )
 
 # API_KEY 환경변수에서 가져오기
@@ -157,12 +160,20 @@ def get_products_infos(request):
     deposit_products = DepositProducts.objects.prefetch_related("options").all()
     installment_products = InstallmentProducts.objects.prefetch_related("options").all()
 
-    deposit_data = CombinedProductSerializer(deposit_products, many=True).data
-    installment_data = CombinedProductSerializer(installment_products, many=True).data
+    # 각각의 시리얼라이저로 데이터 변환
+    deposit_data = DepositDetailSerializer(deposit_products, many=True).data
+    installment_data = InstallmentDetailSerializer(installment_products, many=True).data
+
+    # 각 데이터에 카테고리와 새로운 pk 추가
+    for idx, item in enumerate(deposit_data):
+        item['category'] = '예금'
+        item['unique_id'] = f'dep_{item["id"]}'  # dep_1, dep_2 형식
+    
+    for idx, item in enumerate(installment_data):
+        item['category'] = '적금'
+        item['unique_id'] = f'ins_{item["id"]}'  # ins_1, ins_2 형식
 
     data = dict()
-    status_info = None
-
     if deposit_data or installment_data:
         data["status"] = "success"
         data["prdt_data"] = deposit_data + installment_data

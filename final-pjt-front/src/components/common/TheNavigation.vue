@@ -2,9 +2,15 @@
   <v-container>
     <v-btn :to="{ name: 'CurrencyConverter' }">환율 계산기</v-btn>
     <v-btn :to="{ name: 'findNearestBank' }">가까운 은행 찾기</v-btn>
+    <v-btn :to="{ name: 'FinancialProduct' }">금융상품 정보</v-btn>
 
     <template v-if="authStore.isLogin">
-      <v-btn :to="{ name: 'ProFileView', params: { id: userId }}">프로필</v-btn>
+      <v-btn 
+        v-if="userId" 
+        :to="{ name: 'ProFileView', params: { id: userId }}"
+      >
+        프로필
+      </v-btn>
       <v-btn @click="logOut">로그아웃</v-btn>
     </template>
     <template v-else>

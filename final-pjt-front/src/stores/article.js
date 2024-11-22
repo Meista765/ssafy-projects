@@ -1,34 +1,68 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { useAuthStore } from './auth'
 
 export const useArticleStore = defineStore('article', () => {
   const authStore = useAuthStore()
   const articles = ref([])
-  const API_URL = 'http://127.0.0.1:8000'
+  const article = ref(null)
+  const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
   
   const getArticles = function () {
     axios({
       method: 'get',
-      url: `${API_URL}/articles/`,
+      url: `${BACKEND_SERVER_URL}/articles/`,
       headers: {
         Authorization: `Token ${authStore.token}`
       }
     })
       .then((res) => {
-        console.log(res)
         articles.value = res.data
       })
       .catch((err) => {
         console.log(err)
-        // console.log(authStore)
-        // console.log(autho)
       })
   }
 
-    return { API_URL, articles, getArticles }
-  },
-  { persist: true }
-)
+  const getArticle = async (articleId) => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `${BACKEND_SERVER_URL}/articles/${articleId}/`,
+        headers: {
+          Authorization: `Token ${authStore.token}`
+        }
+      })
+      article.value = response.data
+    } catch (error) {
+      console.error('게시글 조회 실패:', error)
+    }
+  }
+
+  const deleteArticle = async (articleId) => {
+    try {
+      await axios({
+        method: 'delete',
+        url: `${BACKEND_SERVER_URL}/articles/${articleId}/`,
+        headers: {
+          Authorization: `Token ${authStore.token}`
+        }
+      })
+    } catch (error) {
+      console.error('게시글 삭제 실패:', error)
+      throw error
+    }
+  }
+
+  return { 
+    BACKEND_SERVER_URL, 
+    articles, 
+    article,
+    getArticles,
+    getArticle,
+    deleteArticle
+  }
+}, {
+  persist: true
+})

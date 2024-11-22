@@ -5,7 +5,9 @@ urlpatterns = [
     # 게시글 조회 및 생성
     path('', views.article_list),
 
-    # 게시글 상세 조회
+    # GET: 게시글 상세 조회
+    # DELETE: 게시글 삭제
+    # PUT: 게시글 수정 
     path('<int:article_pk>/', views.article_detail),
 
     # 댓글 생성
