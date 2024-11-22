@@ -51,7 +51,9 @@ class DepositProducts(models.Model):
                 name="product_join_deny_range_1_to_3",
             ),
         ]
-
+    
+    # def __str__(self):
+    #     return str(self.kor_co_nm)
 
 # ==========================================================
 # 정기예금 상품 옵션
