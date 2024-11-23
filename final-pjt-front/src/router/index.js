@@ -19,10 +19,19 @@ import { useAuthStore } from '@/stores/auth'
 import ProFileView from '@/views/Auth/ProFileView.vue'
 import FinancialProductView from '@/views/Finance/FinancialProductView.vue'
 import FinancialProductDetailView from '@/views/Finance/FinancialProductDetailView.vue'
+import HomeView from '@/views/Home/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/home',
+      component: HomeView
+    },
     // 1. 메인 기능 라우트
     // 환율 계산기
     {

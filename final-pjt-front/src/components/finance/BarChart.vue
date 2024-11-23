@@ -11,8 +11,9 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const props = defineProps({
   chartData: {
-    type: Object,
-    required: true
+    type: Array,
+    required: true,
+    default: () => []
   }
 })
 

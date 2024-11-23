@@ -11,11 +11,11 @@
           }}</v-card-subtitle>
         </div>
         <v-btn
-          v-show="authStore.isLogin"
-          color="primary"
+          v-if="authStore.isLogin"
+          :color="isSubscribed ? 'error' : 'primary'"
           @click="handleSubscribe"
         >
-          가입하기
+          {{ isSubscribed ? '상품 해지' : '상품 가입' }}
         </v-btn>
       </div>
 
@@ -45,19 +45,24 @@
 </template>
 
 <script setup>
-import { onMounted, computed } from 'vue'
+import axios from 'axios'
+
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { useFinanceStore } from '@/stores/financialProduct'
 import { useAuthStore } from '@/stores/auth'
+import { useFinanceStore } from '@/stores/financialProduct'
 
-import BarChart from '@/components/finance/BarChart.vue'
+import BarChart from '@/components/finance/BarChart.vue'  // 추가
 
 const route = useRoute()
 const financeStore = useFinanceStore()
 const authStore = useAuthStore()
 
 const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
+
+// 구독 상태를 로컬 ref로 관리
+const isSubscribed = ref(null)
 
 // 데이터 가공
 const processedProduct = computed(() => {
@@ -111,26 +116,33 @@ const handleSubscribe = async () => {
   const authStore = useAuthStore()
   const product = financeStore.selectedProduct
 
-  try {
-    await axios({
-      method: 'post',
-      url: `${BACKEND_SERVER_URL}/finances/subscribe/`,
-      data: {
-        category: product.unique_id.slice(0, 3),
-        id: product.id,
-        content: content.value
-      },
-      headers: {
-        Authorization: `Token ${authStore.token}`
-      }
+  await axios({
+    method: 'post',
+    url: `${BACKEND_SERVER_URL}/finances/subscribe/`,
+    data: {
+      category: product.unique_id.slice(0, 3),
+      id: product.id,
+    },
+    headers: {
+      Authorization: `Token ${authStore.token}`,
+    },
+  })
+    .then((res) => {
+      console.log(res)
+      // 로컬 상태만 토글
+      isSubscribed.value = !isSubscribed.value
     })
-  } catch (error) {
-    console.error('가입 실패:', error)
-  }
+    .catch((error) => {
+      console.error(error)
+    })
 }
 
-onMounted(() => {
+// 초기 마운트 시 구독 상태 설정
+onMounted(async () => {
   const productUniqueId = route.params.productUniqueId
-  financeStore.getProductDetail(productUniqueId)
+  await financeStore.getProductDetailFromServer(productUniqueId)
+    .then(() => {
+      isSubscribed.value = financeStore.selectedProduct?.is_subscribed || false
+    })
 })
 </script>

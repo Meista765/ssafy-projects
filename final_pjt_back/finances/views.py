@@ -5,7 +5,9 @@ import requests
 from django.http import JsonResponse
 from django.conf import settings
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 # Local imports
 from .models import (
@@ -38,7 +40,7 @@ def save_deposits(request):
         "topFinGrpNo": "020000",
         "pageNo": 1,
     }
-    url = f"http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json"
+    url = f"{settings.FINANCE_API_URL}/depositProductsSearch.json"
     
     response = requests.get(url, params=params).json()
     result = response.get("result")
@@ -100,7 +102,7 @@ def save_installments(request):
         "topFinGrpNo": "020000",
         "pageNo": 1,
     }
-    url = f"http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json"
+    url = f"{settings.FINANCE_API_URL}/installmentProductsSearch.json"
     
     response = requests.get(url, params=params).json()
     result = response.get("result")
@@ -185,3 +187,69 @@ def get_products_infos(request):
         status_info = status.HTTP_404_NOT_FOUND
 
     return JsonResponse(data=data, status=status_info)
+
+
+# 예적금 상품 구독
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def subscribe_financial_product(request):
+    category = request.data.get("category")
+    pk = request.data.get("id")
+    
+    # 카테고리별 모델과 관계 매핑
+    product_map = {
+        "dep": (DepositProducts, "deposit_products"),
+        "ins": (InstallmentProducts, "installment_products"),
+    }
+    
+    if category not in product_map:
+        return JsonResponse({"error": "잘못된 카테고리입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        
+    try:
+        Model, relation_name = product_map[category]
+        product = Model.objects.get(pk=pk)
+        user_products = getattr(request.user, relation_name)
+        
+        # 구독 토글
+        if user_products.filter(pk=pk).exists():
+            user_products.remove(product)
+            message = "구독 취소"
+        else:
+            user_products.add(product)
+            message = "구독 완료"
+            
+        return JsonResponse({"message": message}, status=status.HTTP_200_OK)
+        
+    except Model.DoesNotExist:
+        return JsonResponse({"error": "상품을 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def get_product_detail(request, product_id):
+    category = product_id[:3]
+    pk = int(product_id.split('_')[1])
+    
+    try:
+        if category == 'dep':
+            product = DepositProducts.objects.prefetch_related('options').get(pk=pk)
+            serializer = DepositDetailSerializer(product)
+        elif category == 'ins':
+            product = InstallmentProducts.objects.prefetch_related('options').get(pk=pk)
+            serializer = InstallmentDetailSerializer(product)
+        else:
+            return JsonResponse({'error': '잘못된 카테고리입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        data = serializer.data
+        data['category'] = '예금' if category == 'dep' else '적금'
+        data['unique_id'] = product_id
+        
+        # 구독 여부 확인
+        if request.user.is_authenticated:
+            if category == 'dep':   
+                data['is_subscribed'] = request.user.deposit_products.filter(pk=pk).exists()
+            else:
+                data['is_subscribed'] = request.user.installment_products.filter(pk=pk).exists()
+        
+        return Response(data, status=status.HTTP_200_OK)
+    except (DepositProducts.DoesNotExist, InstallmentProducts.DoesNotExist):
+        return JsonResponse({'error': '상품을 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
