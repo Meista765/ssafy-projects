@@ -40,7 +40,6 @@ DJANGO_APPS = [
 PROJECT_APPS = [
     'accounts',
     'articles',
-    'exchange_rates',
     'finances',
 ]
 
