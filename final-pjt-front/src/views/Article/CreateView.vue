@@ -63,7 +63,7 @@ const createArticle = function () {
 
   axios({
     method: 'post',
-    url: `${articleStore.API_URL}/articles/`,
+    url: `${articleStore.BACKEND_SERVER_URL}/articles/`,
     data: {
       title: title.value,
       content: content.value

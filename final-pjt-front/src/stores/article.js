@@ -34,6 +34,7 @@ export const useArticleStore = defineStore('article', () => {
           Authorization: `Token ${authStore.token}`
         }
       })
+      console.log(response)
       article.value = response.data
     } catch (error) {
       console.error('게시글 조회 실패:', error)
@@ -54,6 +55,7 @@ export const useArticleStore = defineStore('article', () => {
       throw error
     }
   }
+
 
   return { 
     BACKEND_SERVER_URL, 
