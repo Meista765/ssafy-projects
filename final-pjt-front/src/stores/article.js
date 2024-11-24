@@ -18,6 +18,7 @@ export const useArticleStore = defineStore('article', () => {
       }
     })
       .then((res) => {
+        console.log(res)
         articles.value = res.data
       })
       .catch((err) => {
