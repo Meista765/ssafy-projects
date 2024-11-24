@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
@@ -56,8 +56,22 @@ const router = useRouter()
 const articleStore = useArticleStore()
 const authStore = useAuthStore()
 
+// 로그인 상태 확인
+onMounted(() => {
+  if (!authStore.isLogin) {
+    alert('로그인이 필요한 서비스입니다.')
+    router.push({ name: 'LoginView' })
+  }
+})
+
 const createArticle = async function () {
   if (!title.value || !content.value) return
+  
+  if (!authStore.isLogin) {
+    alert('로그인이 필요한 서비스입니다.')
+    router.push({ name: 'LoginView' })
+    return
+  }
 
   try {
     await axios({
@@ -74,6 +88,12 @@ const createArticle = async function () {
     router.push({name: 'ArticleView'})
   } catch (error) {
     console.error('게시글 생성 실패:', error)
+    if (error.response?.status === 401) {
+      alert('로그인이 필요한 서비스입니다.')
+      router.push({ name: 'LoginView' })
+    } else {
+      alert('게시글 작성에 실패했습니다.')
+    }
   }
 }
 </script>
