@@ -144,11 +144,11 @@ const getUserInfo = async () => {
       })
       console.log('User Info:', res.data)
       userInfo.value = res.data
-      first_name.value = userInfo.value.first_name
-      last_name.value = userInfo.value.last_name
-      investment_style.value = userInfo.value.investment_style
-      annual_income.value = userInfo.value.annual_income
-      savings_goal.value = userInfo.value.savings_goal
+      first_name.value = userInfo.value.user.first_name
+      last_name.value = userInfo.value.user.last_name
+      investment_style.value = userInfo.value.user.investment_style
+      annual_income.value = userInfo.value.user.annual_income
+      savings_goal.value = userInfo.value.user.savings_goal
       console.log(userInfo.value)
     } catch (err) {
       console.error('Failed to get user info:', err)

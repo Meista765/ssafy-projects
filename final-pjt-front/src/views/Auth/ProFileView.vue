@@ -14,7 +14,7 @@
             </v-card-title>
             
             <v-card-subtitle class="text-center mb-4">
-              {{ userInfo.last_name }}{{ userInfo.first_name }} 
+              {{ userInfo.user.last_name }}{{ userInfo.user.first_name }} 
             </v-card-subtitle>
             
             <v-divider></v-divider>
@@ -48,7 +48,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>생년월일</v-list-item-title>
-                  <v-list-item-subtitle>{{ formattedBirthDate }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ userInfo.user.birth_date }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               
@@ -58,7 +58,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>나이</v-list-item-title>
-                  <v-list-item-subtitle>{{ userInfo.age }}세</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ userInfo.user.age }}세</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               
@@ -89,6 +89,48 @@
                 <v-list-item-content>
                   <v-list-item-title>목표 저축액</v-list-item-title>
                   <v-list-item-subtitle>{{ savingsGoalDisplay }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+
+              <!--가입한 예금 상품 -->
+              <v-list-item>
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-piggy-bank-outline
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>가입한 예금 상품</v-list-item-title>
+                  <div v-if="userInfo.deposit.length > 0">
+                    <v-list-item-subtitle v-for="deposit in userInfo.deposit" :key="deposit.id">
+                      {{ deposit.fin_prdt_nm }}
+                    </v-list-item-subtitle>
+                  </div>
+                  <div v-else>
+                    <v-list-item-subtitle>
+                      아직 가입한 예금 상품이 없습니다.
+                    </v-list-item-subtitle>
+                  </div>
+                </v-list-item-content>
+              </v-list-item>
+
+              <!--가입한 적금 상품-->
+               <v-list-item>
+                <v-list-item-icon>
+                  <v-icon color="primary">mdi-piggy-bank
+                  </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>가입한 적금 상품</v-list-item-title>
+                  <div v-if="userInfo.installments.length >0">
+                    <v-list-item-subtitle v-for="installments in userInfo.installments" :key="installments.id">
+                      {{ installments.fin_prdt_nm }}
+                    </v-list-item-subtitle>
+                  </div>
+                  <div v-else>
+                    <v-list-item-subtitle>
+                      아직 가입한 예금 상품이 없습니다.
+                    </v-list-item-subtitle>
+                  </div>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -159,12 +201,12 @@ const userInfo = computed(() => authStore.userInfo);
 
 // 선택지 값 변환
 const genderDisplay = computed(() => {
-  if (!userInfo.value.gender) return '정보 없음';
-  return userInfo.value.gender === 'M' ? '남성' : '여성';
+  if (!userInfo.value.user.gender) return '정보 없음';
+  return userInfo.value.user.gender === 'M' ? '남성' : '여성';
 });
 
 const investmentStyleDisplay = computed(() => {
-  switch (userInfo.value.investment_style) {
+  switch (userInfo.value.user.investment_style) {
     case 'conservative':
       return '안정형';
     case 'moderate':
@@ -185,7 +227,7 @@ const annualIncomeDisplay = computed(() => {
     '4': '7000만원~1억원',
     '5': '1억원~',
   };
-  return mapping[userInfo.value.annual_income] || '정보 없음';
+  return mapping[userInfo.value.user.annual_income] || '정보 없음';
 });
 
 const savingsGoalDisplay = computed(() => {
@@ -197,17 +239,9 @@ const savingsGoalDisplay = computed(() => {
     '4': '7000만원~1억원',
     '5': '1억원~',
   };
-  return mapping[userInfo.value.savings_goal] || '정보 없음';
+  return mapping[userInfo.value.user.savings_goal] || '정보 없음';
 });
 
-const formattedBirthDate = computed(() => {
-  if (!userInfo.value.birth_date) return '정보 없음';
-  const date = new Date(userInfo.value.birth_date);
-  const year = date.getFullYear();
-  const month = (`0${date.getMonth() + 1}`).slice(-2);
-  const day = (`0${date.getDate()}`).slice(-2);
-  return `${year}-${month}-${day}`;
-});
 
 // 회원탈퇴 액션
 const signOut = function () {

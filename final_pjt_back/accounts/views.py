@@ -4,9 +4,12 @@ from rest_framework import status
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 
+from django.http import JsonResponse
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.contrib.auth import get_user_model
+
 from .serializers import UserSerializer
+from finances.serializers import DepositDetailSerializer, InstallmentDetailSerializer
 # Create your views here.
 
 @api_view(['GET'])
@@ -24,8 +27,16 @@ def detail_user(request, user_pk):
     user = get_object_or_404(User, pk=user_pk)
 
     if request.method == 'GET':
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+        user_serializer = UserSerializer(user)
+        deposit_serializer = DepositDetailSerializer(user.deposit_products.all(), many=True)
+        savings_serializer = InstallmentDetailSerializer(user.savings_products.all(), many=True)
+        data = {
+            'user': user_serializer.data,
+            'deposit': deposit_serializer.data,
+            'installments': savings_serializer.data,
+        }
+        return JsonResponse(data)
+
     elif request.method == 'DELETE':
         if request.user.pk != user.pk:
             return Response({'msg': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
