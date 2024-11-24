@@ -38,10 +38,13 @@
               </tr>
             </tbody>
           </v-table>
+          
         </v-card-text>
       </v-card>
     </v-col>
   </v-row>
+
+
   
 </template>
 

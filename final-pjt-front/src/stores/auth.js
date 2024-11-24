@@ -27,23 +27,24 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-    const signUp = async (payload) => {
-      await axios({
-        method: 'post',
-        url: `${BACKEND_SERVER_URL}/accounts/signup/`,
-        data: payload,
-      })
-      
-      if (response.data.key) {
-        token.value = response.data.key
-        username.value = payload.username
-        router.push({ name: 'ArticleView' })
-      }
-    } catch (error) {
-      console.error(error)
-      throw error
+  const signUp = async (payload) => {
+    try {
+      const response = await axios({
+      method: 'post',
+      url: `${BACKEND_SERVER_URL}/accounts/signup/`,
+      data: payload,
+    })
+    
+    if (response.data.key) {
+      token.value = response.data.key
+      username.value = payload.username
+      router.push({ name: 'ArticleView' })
     }
+  } catch (error) {
+    console.error(error)
+    throw error
   }
+}
 
   const signOut = function (userId) {
     axios({
@@ -92,6 +93,7 @@ export const useAuthStore = defineStore('auth', () => {
         .then(() => {
           token.value = null
           username.value = null
+          router.push({ name: 'HomeView'})
         })
         .catch((error) => {
           console.error('로그아웃 실패:', error)
@@ -109,6 +111,6 @@ export const useAuthStore = defineStore('auth', () => {
     logIn,
     logOut,
     getUserInfo,
-
   }
+}, {persist:true}
 )
