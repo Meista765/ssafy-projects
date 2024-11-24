@@ -56,29 +56,25 @@ const router = useRouter()
 const articleStore = useArticleStore()
 const authStore = useAuthStore()
 
-const createArticle = function () {
-  if (!title.value || !content.value) {
-    return
-  }
+const createArticle = async function () {
+  if (!title.value || !content.value) return
 
-  axios({
-    method: 'post',
-    url: `${articleStore.BACKEND_SERVER_URL}/articles/`,
-    data: {
-      title: title.value,
-      content: content.value
-    },
-    headers: {
-      Authorization: `Token ${authStore.token}`
-    }
-  })
-    .then((res) => {
-      console.log(res.data)
-      router.push({name: 'ArticleView'})
+  try {
+    await axios({
+      method: 'post',
+      url: `${articleStore.BACKEND_SERVER_URL}/articles/`,
+      data: {
+        title: title.value,
+        content: content.value
+      },
+      headers: {
+        Authorization: `Token ${authStore.token}`
+      }
     })
-    .catch((err) => {
-      console.log(err)
-    })
+    router.push({name: 'ArticleView'})
+  } catch (error) {
+    console.error('게시글 생성 실패:', error)
+  }
 }
 </script>
 

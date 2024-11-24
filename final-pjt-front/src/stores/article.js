@@ -9,21 +9,20 @@ export const useArticleStore = defineStore('article', () => {
   const article = ref(null)
   const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
   
-  const getArticles = function () {
-    axios({
-      method: 'get',
-      url: `${BACKEND_SERVER_URL}/articles/`,
-      headers: {
-        Authorization: `Token ${authStore.token}`
-      }
-    })
-      .then((res) => {
-        console.log(res)
-        articles.value = res.data
+  const getArticles = async function () {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `${BACKEND_SERVER_URL}/articles/`,
+        headers: {
+          Authorization: `Token ${authStore.token}`
+        }
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      console.log(response)
+      articles.value = response.data
+    } catch (error) {
+      console.error('게시글 목록 조회 실패:', error)
+    }
   }
 
   const getArticle = async (articleId) => {

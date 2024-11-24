@@ -46,58 +46,54 @@ export const useAuthStore = defineStore('auth', () => {
   }
 }
 
-  const signOut = function (userId) {
-    axios({
-      method: 'delete',
-      url: `${BACKEND_SERVER_URL}/user/detail/${userId}/`,
-      headers: {
-        Authorization: `Token ${token.value}`,
-      }
-    })
-      .then((res) => {
-        token.value = null
-        userInfo.value = null
-        router.push({ name: 'ArticleView'})  // 추후 메인페이지로 이동할 것
+  const signOut = async function (userId) {
+    try {
+      await axios({
+        method: 'delete',
+        url: `${BACKEND_SERVER_URL}/user/detail/${userId}/`,
+        headers: {
+          Authorization: `Token ${token.value}`,
+        }
       })
-      .catch((err) => {
-        console.log(err)
-        alert('회원탈퇴에 실패했습니다. 다시 시도해주세요.');
-      })
+      token.value = null
+      userInfo.value = null
+      router.push({ name: 'ArticleView'})
+    } catch (error) {
+      console.error('회원탈퇴 실패:', error)
+    }
   }
 
     const logIn = async (payload) => {
-      await axios({
-        method: 'post',
-        url: `${BACKEND_SERVER_URL}/accounts/login/`,
-        data: payload,
-      })
-        .then((response) => {
-          token.value = response.data.key
-          username.value = payload.username
-          router.go(-1)
+      try {
+        const response = await axios({
+          method: 'post',
+          url: `${BACKEND_SERVER_URL}/accounts/login/`,
+          data: payload,
         })
-        .catch((error) => {
-          console.error('로그인 실패:', error)
-          alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.')
-        })
+        token.value = response.data.key
+        username.value = payload.username
+        router.go(-1)
+      } catch (error) {
+        console.error('로그인 실패:', error)
+        alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.')
+      }
     }
 
     const logOut = async () => {
-      await axios({
-        method: 'post',
-        url: `${BACKEND_SERVER_URL}/accounts/logout/`,
-        headers: {
-          Authorization: `Token ${token.value}`,
-        },
-      })
-        .then(() => {
-          token.value = null
-          username.value = null
-          router.push({ name: 'HomeView'})
+      try {
+        await axios({
+          method: 'post',
+          url: `${BACKEND_SERVER_URL}/accounts/logout/`,
+          headers: {
+            Authorization: `Token ${token.value}`,
+          },
         })
-        .catch((error) => {
-          console.error('로그아웃 실패:', error)
-        })
+        token.value = null
+        username.value = null
+        router.push({ name: 'HomeView'})
+      } catch (error) {
+        console.error('로그아웃 실패:', error)
+      }
     }
 
   return { 

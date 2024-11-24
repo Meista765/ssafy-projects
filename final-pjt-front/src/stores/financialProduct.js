@@ -13,34 +13,32 @@ export const useFinanceStore = defineStore(
     const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
 
     const getFinancialProducts = async () => {
-      await axios({
-        method: 'get',
-        url: `${BACKEND_SERVER_URL}/finances/infos/`,
-      })
-        .then((res) => {
-          console.log('상품 정보 조회 성공:', res)
-          financialProducts.value = res.data.prdt_data
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `${BACKEND_SERVER_URL}/finances/infos/`,
         })
-        .catch((err) => {
-          console.error('상품 정보 조회 실패:', err)
-        })
+        console.log('상품 정보 조회 성공:', response)
+        financialProducts.value = response.data.prdt_data
+      } catch (error) {
+        console.error('상품 정보 조회 실패:', error)
+      }
     }
 
     const getProductDetailFromServer = async (productUniqueId) => {
-      await axios({
-        method: 'get',
-        url: `${BACKEND_SERVER_URL}/finances/infos/${productUniqueId}/`,
-        headers: {
-          Authorization: `Token ${authStore.token}`,
-        },
-      })
-        .then((res) => {
-          console.log('상품 상세 정보 조회 성공:', res)
-          selectedProduct.value = res.data
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `${BACKEND_SERVER_URL}/finances/infos/${productUniqueId}/`,
+          headers: {
+            Authorization: `Token ${authStore.token}`,
+          },
         })
-        .catch((error) => {
-          console.error('상품 상세 정보 조회 실패:', error)
-        })
+        console.log('상품 상세 정보 조회 성공:', response)
+        selectedProduct.value = response.data
+      } catch (error) {
+        console.error('상품 상세 정보 조회 실패:', error)
+      }
     }
 
     return {

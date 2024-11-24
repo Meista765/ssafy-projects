@@ -10,11 +10,11 @@
           <v-form @submit.prevent="signUp">
             <v-text-field
               v-model="username"
-              label="id"
+              label="아이디"
               prepend-inner-icon="mdi-account"
               variant="outlined"
               required
-              :rules="[v => !!v || 'id 입력해주세요']"
+              :rules="[v => !!v || '유저 아이디를 입력해주세요']"
             ></v-text-field>
 
             <v-text-field

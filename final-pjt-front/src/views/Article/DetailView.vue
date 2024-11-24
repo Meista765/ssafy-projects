@@ -190,21 +190,20 @@ const isAuthor = computed(() => {
 // 함수 
 
 // 로그인 유저 정보 조회
-const getCurrentUser = function () {
-  axios({
-    method:'get',
-    url: `${authStore.BACKEND_SERVER_URL}/user/`,
-    headers: {
-      Authorization: `Token ${authStore.token}`
-    }
-  })
-    .then((res) => {
-      console.log(res)
-      userId.value = res.data.id
+const getCurrentUser = async function () {
+  try {
+    const res = await axios({
+      method:'get',
+      url: `${authStore.BACKEND_SERVER_URL}/user/`,
+      headers: {
+        Authorization: `Token ${authStore.token}`
+      }
     })
-    .catch((err) => {
-      console.log(err)
-    })
+    console.log(res)
+    userId.value = res.data.id
+  } catch (error) {
+    console.error('사용자 정보 조회 실패:', error)
+  }
 }
 
 
@@ -219,20 +218,19 @@ const cancelArticleEdit = function () {
   updatedArticleContent.value = ''
 }
 
-const updateArticle = function (articleId) {
-  axios({
-    method: 'put',
-    url: `${articleStore.BACKEND_SERVER_URL}/articles/${articleId}/`,
-    data: {content: updatedArticleContent.value},
-    headers: {Authorization: `Token ${authStore.token}`}
-  })
-    .then((res) => {
-      articleStore.getArticle(route.params.id)
-      isEditingArticle.value = false
+const updateArticle = async function (articleId) {
+  try {
+    await axios({
+      method: 'put',
+      url: `${articleStore.BACKEND_SERVER_URL}/articles/${articleId}/`,
+      data: {content: updatedArticleContent.value},
+      headers: {Authorization: `Token ${authStore.token}`}
     })
-    .catch((err) => {
-      console.log(err)
-    })
+    await articleStore.getArticle(route.params.id)
+    isEditingArticle.value = false
+  } catch (error) {
+    console.error('게시글 수정 실패:', error)
+  }
 }
 
 
@@ -260,25 +258,20 @@ const formatDate = (dateString) => {
 // 댓글 
 
 // 댓글 생성
-const createComment = () => {
-  axios({
-    method: 'post',
-    url: `${articleStore.BACKEND_SERVER_URL}/articles/${route.params.id}/comments/`,
-    data: {
-      content: content.value
-    },
-    headers: {
-      Authorization: `Token ${authStore.token}`
-    }
-  })
-    .then(() => {
-      articleStore.getArticle(route.params.id);
-      content.value = '';
+const createComment = async () => {
+  try {
+    await axios({
+      method: 'post',
+      url: `${articleStore.BACKEND_SERVER_URL}/articles/${route.params.id}/comments/`,
+      data: { content: content.value },
+      headers: { Authorization: `Token ${authStore.token}` }
     })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+    await articleStore.getArticle(route.params.id)
+    content.value = ''
+  } catch (error) {
+    console.error('댓글 생성 실패:', error)
+  }
+}
 
 // 댓글 수정 시작
 const startEditingComment = (commentId, currentContent) => {
@@ -293,45 +286,37 @@ const cancelCommentEdit = () => {
 };
 
 // 댓글 업데이트
-const updateComment = (commentId) => {
-  axios({
-    method: 'put',
-    url: `${articleStore.BACKEND_SERVER_URL}/articles/comments/${commentId}/`,
-    data: {
-      content: updatedCommentContent.value
-    },
-    headers: {
-      Authorization: `Token ${authStore.token}`
-    }
-  })
-    .then(() => {
-      articleStore.getArticle(route.params.id);
-      editingCommentId.value = null;
-      updatedCommentContent.value = '';
+const updateComment = async (commentId) => {
+  try {
+    await axios({
+      method: 'put',
+      url: `${articleStore.BACKEND_SERVER_URL}/articles/comments/${commentId}/`,
+      data: { content: updatedCommentContent.value },
+      headers: { Authorization: `Token ${authStore.token}` }
     })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+    await articleStore.getArticle(route.params.id)
+    editingCommentId.value = null
+    updatedCommentContent.value = ''
+  } catch (error) {
+    console.error('댓글 수정 실패:', error)
+  }
+}
 
 // 댓글 삭제
-const deleteComment = (commentId) => {
-  if (confirm('댓글을 삭제하시겠습니까?')) {
-    axios({
+const deleteComment = async (commentId) => {
+  if (!confirm('댓글을 삭제하시겠습니까?')) return
+  
+  try {
+    await axios({
       method: 'delete',
       url: `${articleStore.BACKEND_SERVER_URL}/articles/comments/${commentId}/`,
-      headers: {
-        Authorization: `Token ${authStore.token}`
-      }
+      headers: { Authorization: `Token ${authStore.token}` }
     })
-      .then(() => {
-        articleStore.getArticle(route.params.id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    await articleStore.getArticle(route.params.id)
+  } catch (error) {
+    console.error('댓글 삭제 실패:', error)
   }
-};
+}
 
 onMounted(() => {
   articleStore.getArticle(route.params.id)

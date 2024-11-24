@@ -93,21 +93,18 @@ const onInputKrwCurrency = () => {
 }
 
 onMounted(async () => {
-  await axios({
-    method: 'get',
-    url: `${EXCHANGE_RATE_SERVER_URL}/${EXCHANGE_RATE_API_KEY}/latest/${baseCurrency}`,
-  })
-    .then((response) => {
-      conversionRates.value = response.data.conversion_rates
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${EXCHANGE_RATE_SERVER_URL}/${EXCHANGE_RATE_API_KEY}/latest/${baseCurrency}`,
     })
-    .then(() => {
-      selectedCurrency.value = currencyItems.value.find(
-        (currency) => currency.ticker === 'USD'
-      )
-    })
-    .catch((error) => {
-      console.error('환율 데이터를 가져오는 중 에러 발생:', error)
-    })
+    conversionRates.value = response.data.conversion_rates
+    selectedCurrency.value = currencyItems.value.find(
+      (currency) => currency.ticker === 'USD'
+    )
+  } catch (error) {
+    console.error('환율 데이터를 가져오는 중 에러 발생:', error)
+  }
 })
 </script>
 

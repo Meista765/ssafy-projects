@@ -113,28 +113,23 @@ const interestInfo = computed(() => {
 
 // 가입하기 버튼 클릭 핸들러 추가
 const handleSubscribe = async () => {
-  const authStore = useAuthStore()
-  const product = financeStore.selectedProduct
-
-  await axios({
-    method: 'post',
-    url: `${BACKEND_SERVER_URL}/finances/subscribe/`,
-    data: {
-      category: product.unique_id.slice(0, 3),
-      id: product.id,
-    },
-    headers: {
-      Authorization: `Token ${authStore.token}`,
-    },
-  })
-    .then((res) => {
-      console.log(res)
-      // 로컬 상태만 토글
-      isSubscribed.value = !isSubscribed.value
+  try {
+    const product = financeStore.selectedProduct
+    await axios({
+      method: 'post',
+      url: `${BACKEND_SERVER_URL}/finances/subscribe/`,
+      data: {
+        category: product.unique_id.slice(0, 3),
+        id: product.id,
+      },
+      headers: {
+        Authorization: `Token ${authStore.token}`,
+      },
     })
-    .catch((error) => {
-      console.error(error)
-    })
+    isSubscribed.value = !isSubscribed.value
+  } catch (error) {
+    console.error('상품 구독 처리 실패:', error)
+  }
 }
 
 // 초기 마운트 시 구독 상태 설정

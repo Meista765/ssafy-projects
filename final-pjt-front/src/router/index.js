@@ -127,6 +127,11 @@ router.beforeEach((to, from) => {
     window.alert('로그인이 필요한 서비스입니다.')
     return { name: 'LoginView' }
   }
+  // 프로필 페이지 접근 제한
+  if (to.name === 'ProFileView' && !authStore.isLogin) {
+    window.alert('로그인이 필요한 서비스입니다.')
+    return { name: 'LoginView' }
+  }
   // 다른 모든 경우에는 내비게이션 허용
   return true
 })
