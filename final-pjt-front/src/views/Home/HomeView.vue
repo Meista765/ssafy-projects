@@ -33,7 +33,7 @@
       </v-col>
 
       <v-col cols="12" sm="6" md="3" class="d-flex">
-        <v-card to="/article" class="flex-grow-1 d-flex flex-column align-center justify-center">
+        <v-card to="/articles" class="flex-grow-1 d-flex flex-column align-center justify-center">
           <v-icon size="64" color="primary" class="mb-4">mdi-forum</v-icon>
           <h2 class="text-h6">커뮤니티</h2>
           <p class="text-caption text-center">금융 정보 공유</p>

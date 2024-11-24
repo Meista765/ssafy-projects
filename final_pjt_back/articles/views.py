@@ -1,12 +1,20 @@
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import status
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
+# Django
+from django.shortcuts import get_object_or_404
 
-from django.shortcuts import get_list_or_404, get_object_or_404
+# Django REST Framework
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
+
+# Local
 from .models import Article, Comment
-from .serializers import ArticleListSerializer, ArticleSerializer, ArticleDetailSerializer,CommentSerializer
+from .serializers import (
+    ArticleListSerializer,
+    ArticleSerializer,
+    ArticleDetailSerializer,
+    CommentSerializer
+)
 
 
 # 게시글 전체 조회 및 생성
@@ -19,6 +27,12 @@ def article_list(request):
         return Response(serializer.data)
     
     elif request.method == 'POST':
+        if not request.user.is_authenticated:
+            return Response(
+                {'detail': '게시글을 작성하려면 로그인이 필요합니다.'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
@@ -29,7 +43,7 @@ def article_list(request):
 # DELETE: 게시글 삭제
 # PUT: 게시글 수정 
 @api_view(['GET', 'PUT', 'DELETE'])
-# @permission_classes([IsAuthenticatedOrReadOnly])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def article_detail(request,article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     

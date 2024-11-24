@@ -1,19 +1,20 @@
-# 표준 라이브러리
+# Python Standard Library
 import requests
 
-# Django & DRF
+# Django
 from django.http import JsonResponse
 from django.conf import settings
+
+# Django REST Framework
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-# Local imports
+# Local
 from .models import (
     DepositOptions,
     DepositProducts,
-
     InstallmentOptions,
     InstallmentProducts,
 )
@@ -21,7 +22,6 @@ from .serializers import (
     DepositProductsSerializer,
     DepositOptionsSerializer,
     DepositDetailSerializer,
-
     InstallmentProductsSerializer,
     InstallmentOptionsSerializer,
     InstallmentDetailSerializer,
@@ -29,7 +29,6 @@ from .serializers import (
 
 # API_KEY 환경변수에서 가져오기
 API_KEY = settings.FINLIFE_API_KEY
-
 
 # API를 활용해 데이터 수집
 # 정기 예금 상품
@@ -240,7 +239,7 @@ def get_product_detail(request, product_id):
             return JsonResponse({'error': '잘못된 카테고리입니다.'}, status=status.HTTP_400_BAD_REQUEST)
         
         data = serializer.data
-        data['category'] = '예금' if category == 'dep' else '적금'
+        data['category'] = '��금' if category == 'dep' else '적금'
         data['unique_id'] = product_id
         
         # 구독 여부 확인
