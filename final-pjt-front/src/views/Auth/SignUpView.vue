@@ -115,7 +115,7 @@
             <!-- 투자 성향 -->
             <v-select
               v-model="investmentType"
-              :items="investmentTypeOtions"
+              :items="investmentTypeOptions"
               item-title="text"
               item-value="value"
               label="투자 성향"
@@ -216,7 +216,7 @@ for (let y = currentYear; y >= 1900; y--) {
 
 // 투자 성향 정보
 const investmentType = ref(null)
-const investmentTypeOtions = [
+const investmentTypeOptions = [
   {text: '안정형', value: 'conservative'},
   {text: '중립형', value: 'moderate'},
   {text: '공격형', value: 'aggresive'},

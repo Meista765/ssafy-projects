@@ -8,10 +8,24 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref(null)
   const username = ref(null)
   const router = useRouter()
-
+  const userInfo = ref(null)
   const isLogin = computed(() => {
     return token.value ? true : false
   })
+
+  const getUserInfo = async (userId) => {
+    try {
+      const res = await axios.get(`${BACKEND_SERVER_URL}/user/detail/${userId}/`, {
+        headers: {
+          Authorization: `Token ${token.value}`
+        }
+      })
+      console.log('User Info:', res.data)
+      userInfo.value = res.data
+    } catch (err) {
+      console.error('Failed to get user info:', err)
+    }
+  }
 
   const signUp = async (payload) => {
     try {
@@ -30,6 +44,25 @@ export const useAuthStore = defineStore('auth', () => {
       console.error(error)
       throw error
     }
+  }
+
+  const signOut = function (userId) {
+    axios({
+      method: 'delete',
+      url: `${BACKEND_SERVER_URL}/user/detail/${userId}/`,
+      headers: {
+        Authorization: `Token ${token.value}`,
+      }
+    })
+      .then((res) => {
+        token.value = null
+        userInfo.value = null
+        router.push({ name: 'ArticleView'})  // 추후 메인페이지로 이동할 것
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('회원탈퇴에 실패했습니다. 다시 시도해주세요.');
+      })
   }
 
   const logIn = async (payload) => {
@@ -71,9 +104,12 @@ export const useAuthStore = defineStore('auth', () => {
     username,
     isLogin,
     BACKEND_SERVER_URL,
+    userInfo,
     signUp,
+    signOut,
     logIn,
     logOut,
+    getUserInfo,
 
   }
 }, {

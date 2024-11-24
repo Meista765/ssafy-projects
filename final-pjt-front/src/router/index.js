@@ -13,12 +13,13 @@ import CreateView from '@/views/Article/CreateView.vue'
 // Auth Views
 import SignUpView from '@/views/Auth/SignUpView.vue'
 import LoginView from '@/views/Auth/LoginView.vue'
-
+import ChangeUserInfoView from '@/views/Auth/ChangeUserInfoView.vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 import ProFileView from '@/views/Auth/ProFileView.vue'
 import FinancialProductView from '@/views/Finance/FinancialProductView.vue'
 import FinancialProductDetailView from '@/views/Finance/FinancialProductDetailView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,6 +88,12 @@ const router = createRouter({
       path: '/profile/:id',
       name: 'ProFileView',
       component: ProFileView
+    },
+    // 회원정보 변경
+    {
+      path: '/change-user-info/:id',
+      name: 'ChangeUserInfoView',
+      component: ChangeUserInfoView
     },
 
     // // 404 페이지 (없는 경우 추가 권장)

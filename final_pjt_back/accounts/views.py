@@ -17,7 +17,7 @@ def current_user(request):
         return Response(serializer.data)
     
 
-@api_view(['GET','DELETE'])
+@api_view(['GET','DELETE','PUT'])
 @permission_classes([IsAuthenticated])
 def detail_user(request, user_pk):
     User = get_user_model()
@@ -26,10 +26,18 @@ def detail_user(request, user_pk):
     if request.method == 'GET':
         serializer = UserSerializer(user)
         return Response(serializer.data)
-    if request.method == 'DELETE':
+    elif request.method == 'DELETE':
         if request.user.pk != user.pk:
             return Response({'msg': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
         else:
             user.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         
+    elif request.method == 'PUT':
+        if request.user.pk != user.pk:
+            return Response({'msg': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        else:
+            serializer = UserSerializer(user, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)

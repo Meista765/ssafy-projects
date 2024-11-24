@@ -1,13 +1,22 @@
 from rest_framework import serializers
 from .models import Article, Comment
 from django.conf import settings
+from django.contrib.auth import get_user_model
+
 
 
 # 게시글 조회
-class ArticleListSerializer(serializers.ModelSerializer):
+class ArticleListSerializer(serializers.ModelSerializer):    
+    class CustomUserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('first_name','last_name')
+
+    user = CustomUserSerializer(read_only=True)
+
     class Meta:
         model = Article
-        fields = ("id", "title", "content")
+        fields = ("id", "title", "content",'created_at','user')
 
 
 # 댓글 상세
@@ -19,7 +28,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ("content", "username", "updated_at", "user_id", "id")
+        fields = ("content", "username", "updated_at", "user_id", "id",)
 
 
 # 게시글 상세 조회

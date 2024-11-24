@@ -33,8 +33,8 @@
                     </v-chip>
                   </div>
                 </td>
-                <td class="text-center">{{ article.user }}</td>
-                <td class="text-center">{{ formatDate(article.created_at) }}</td>
+                <td class="text-center">{{ article.user.last_name+article.user.first_name }}</td>
+                <td class="text-center">{{ article.created_at.slice(0,10) }}</td>
               </tr>
             </tbody>
           </v-table>
@@ -42,6 +42,7 @@
       </v-card>
     </v-col>
   </v-row>
+  
 </template>
 
 <script setup>
@@ -52,14 +53,6 @@ defineProps({
   }
 })
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  })
-}
 
 const isNewArticle = (dateString) => {
   const articleDate = new Date(dateString)

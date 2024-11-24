@@ -37,7 +37,7 @@ const logOut = function () {
 // 로그인한 유저정보 가져오기
 const getCurrentUser = async () => {
   try {
-    const response = await axios.get(`${authStore.API_URL}/user/`,{
+    const response = await axios.get(`${authStore.BACKEND_SERVER_URL}/user/`,{
       headers: {
         Authorization: `Token ${authStore.token}`,
       }
