@@ -20,6 +20,7 @@ import ProFileView from '@/views/Auth/ProFileView.vue'
 import FinancialProductView from '@/views/Finance/FinancialProductView.vue'
 import FinancialProductDetailView from '@/views/Finance/FinancialProductDetailView.vue'
 import HomeView from '@/views/Home/HomeView.vue'
+import NotFound from '@/components/common/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,7 @@ const router = createRouter({
     },
     {
       path: '/home',
+      name: 'HomeView',
       component: HomeView
     },
     // 1. 메인 기능 라우트
@@ -98,12 +100,12 @@ const router = createRouter({
       component: ProFileView
     },
 
-    // // 404 페이지 (없는 경우 추가 권장)
-    // {
-    //   path: '/:pathMatch(.*)*',
-    //   name: 'NotFound',
-    //   redirect: '/articles'  // 또는 404 페이지 컴포넌트로 연결
-    // }
+    // 404 페이지 (없는 경우 추가 권장)
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
+    }
   ],
 })
 router.beforeEach((to, from) => {
