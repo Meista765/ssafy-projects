@@ -1,156 +1,191 @@
 <template>
-  <div>
-    <v-container>
-      <v-card class="mx-auto mt-6">
-        <v-card-title class="text-h4 pa-4">
-          {{ articleStore.article?.title }}
-        </v-card-title>
+  <v-container>
+    <v-card class="mx-auto mt-6">
+      <v-card-title class="text-h4 pa-4">
+        {{ articleStore.article?.title }}
+      </v-card-title>
 
-        <v-card-subtitle class="pa-4">
+      <v-card-subtitle class="pa-4">
+        <v-row no-gutters align="center" justify="space-between">
           <v-row no-gutters align="center">
-            <v-col cols="auto" class="mr-4">
-              <v-icon icon="mdi-account" class="mr-1"></v-icon>
-              {{ articleStore.article?.user }}
-            </v-col>
             <v-col cols="auto">
+              <v-icon icon="mdi-account" class="mr-1"></v-icon>
+              <v-text class="mr-3">{{ articleStore.article?.user }}</v-text>
+
               <v-icon icon="mdi-clock-outline" class="mr-1"></v-icon>
-              {{ formatDate(articleStore.article?.created_at) }}
+              <v-text class="mr-3">{{ formatDate(articleStore.article?.created_at) }}</v-text>
             </v-col>
           </v-row>
-        </v-card-subtitle>
-
-        <v-divider></v-divider>
-
-        <v-card-text class="pa-4 text-body-1">
-          <div v-if="!isEditingArticle">
-            {{ articleStore.article?.content }}
-          </div>
-          <div v-else>
-            <v-textarea
-              v-model.trim="updatedArticleContent"
-              label="내용"
-              rows="5"
-            ></v-textarea>
-          </div>
-        </v-card-text>
-        <v-card-actions class="pa-4">
-          <v-spacer></v-spacer>
-          <div v-if="!isEditingArticle">
+          
+          <v-col cols="auto" v-if="isAuthor">
             <v-btn
-              color="primary"
-              variant="outlined"
-              @click="router.push({ name: 'ArticleView' })"
-            >
-              목록으로
-            </v-btn>
-            <v-btn
-              v-if="isAuthor"
               color="error"
-              class="ml-2"
+              variant="text"
+              density="comfortable"
               @click="deleteArticle"
             >
               삭제
             </v-btn>
-            <v-btn v-if="isAuthor" class="ml-2" @click="startEditingArticle">
+            <v-btn
+              variant="text"
+              density="comfortable"
+              @click="startEditingArticle"
+            >
               수정
             </v-btn>
-          </div>
-          <div v-else>
-            <v-btn
-              color="primary"
-              variant="outlined"
-              @click="updateArticle(articleStore.article.id)"
-            >
-              수정 완료
-            </v-btn>
-            <v-btn color="grey" class="ml-2" @click="cancelArticleEdit">
-              취소
-            </v-btn>
-          </div>
-        </v-card-actions>
-      </v-card>
-    </v-container>
-    <v-divider class="mt-6"></v-divider>
+          </v-col>
+        </v-row>
+      </v-card-subtitle>
 
-    <!-- 댓글 섹션 -->
-    <v-container class="mt-6">
-      <v-card class="mt-6">
-        <v-card-title class="text-h5">댓글 창</v-card-title>
-        <v-card-subtitle
-          >댓글 수: {{ articleStore.article?.comment_count }}</v-card-subtitle
-        >
+      <v-divider></v-divider>
 
-        <v-card-text>
-          <!-- 댓글 리스트 -->
-          <v-list v-if="articleStore.article?.comment?.length > 0">
+      <v-card-text class="pa-4 text-body-1">
+        <div v-if="!isEditingArticle">
+          {{ articleStore.article?.content }}
+        </div>
+        <div v-else>
+          <v-textarea
+            v-model.trim="updatedArticleContent"
+            label="내용"
+            rows="5"
+          ></v-textarea>
+        </div>
+      </v-card-text>
+
+      <v-card-actions class="pa-4">
+        <v-spacer></v-spacer>
+        <div v-if="!isEditingArticle">
+          <v-btn
+            color="primary"
+            variant="outlined"
+            @click="router.push({ name: 'ArticleView' })"
+          >
+            목록으로
+          </v-btn>
+        </div>
+        <div v-else>
+          <v-btn
+            color="primary"
+            variant="outlined"
+            @click="updateArticle(articleStore.article.id)"
+          >
+            수정
+          </v-btn>
+          <v-btn color="grey" class="ml-2" @click="cancelArticleEdit">
+            취소
+          </v-btn>
+        </div>
+      </v-card-actions>
+    </v-card>
+
+    <v-card class="mt-6">
+      <v-card-title class="text-h5">댓글 창</v-card-title>
+      <v-card-subtitle
+        >댓글 수: {{ articleStore.article?.comment_count }}</v-card-subtitle
+      >
+
+      <v-card-text>
+        <v-list v-if="articleStore.article?.comment?.length > 0">
+          <template
+            v-for="(com, index) in articleStore.article.comment"
+            :key="com.id"
+          >
             <v-list-item
-              v-for="com in articleStore.article.comment"
-              :key="com.id"
+              :class="index % 2 === 0 ? 'bg-grey-lighten-4' : ''"
+              rounded="lg"
+              class="mb-2"
             >
-              <template v-slot:default>
-                <div v-if="editingCommentId !== com.id" class="w-100">
-                  <div class="text-body-1">{{ com.content }}</div>
-                  <div class="text-caption text-grey">{{ com.username }}</div>
+              <div class="d-flex justify-space-between align-center w-100">
+                <div class="flex-grow-1">
+                  <div v-if="editingCommentId !== com.id">
+                    <div class="text-body-1">{{ com.content }}</div>
+                    <div class="text-caption text-grey">{{ com.username }}</div>
+                  </div>
+                  <div v-else class="w-100">
+                    <v-textarea
+                      v-model="updatedCommentContent"
+                      label="댓글 수정"
+                      rows="2"
+                      variant="outlined"
+                      density="comfortable"
+                      class="mt-2 mb-2"
+                      hide-details
+                    ></v-textarea>
+                  </div>
                 </div>
-                <div v-else class="w-100">
-                  <v-textarea
-                    v-model="updatedCommentContent"
-                    label="댓글 수정"
-                    rows="2"
-                    variant="outlined"
-                    density="comfortable"
-                  ></v-textarea>
-                  <v-row justify="end" class="mt-2">
-                    <v-btn variant="text" @click="updateComment(com.id)">
+
+                <div class="ml-4">
+                  <template
+                    v-if="com.user_id === userId && editingCommentId !== com.id"
+                  >
+                    <v-btn
+                      variant="text"
+                      density="comfortable"
+                      color="primary"
+                      @click="startEditingComment(com.id, com.content)"
+                    >
+                      수정
+                    </v-btn>
+                    <v-btn
+                      variant="text"
+                      density="comfortable"
+                      color="error"
+                      @click="deleteComment(com.id)"
+                    >
+                      삭제
+                    </v-btn>
+                  </template>
+                  <template v-if="editingCommentId === com.id">
+                    <v-btn
+                      variant="text"
+                      density="comfortable"
+                      color="primary"
+                      @click="updateComment(com.id)"
+                    >
                       완료
                     </v-btn>
-                    <v-btn variant="text" @click="cancelCommentEdit">
+                    <v-btn
+                      variant="text"
+                      density="comfortable"
+                      color="error"
+                      @click="cancelCommentEdit"
+                    >
                       취소
                     </v-btn>
-                  </v-row>
+                  </template>
                 </div>
-              </template>
-              <template v-slot:append>
-                <div v-if="com.user_id === userId && editingCommentId !== com.id">
-                  <v-btn
-                    variant="text"
-                    @click="startEditingComment(com.id, com.content)"
-                  >
-                    수정
-                  </v-btn>
-                  <v-btn variant="text" @click="deleteComment(com.id)">
-                    삭제
-                  </v-btn>
-                </div>
-              </template>
+              </div>
             </v-list-item>
-          </v-list>
-          <div v-else>
-            <p>아직 댓글이 없습니다.</p>
-          </div>
-        </v-card-text>
+            <v-divider
+              v-if="index !== articleStore.article.comment.length - 1"
+              class="my-2"
+            ></v-divider>
+          </template>
+        </v-list>
+        <div v-else>
+          <p>아직 댓글이 없습니다.</p>
+        </div>
+      </v-card-text>
 
-        <!-- 댓글 작성 폼 개선 -->
-        <v-card-actions v-if="!editingCommentId">
-          <v-form @submit.prevent="createComment" class="w-100 pa-3">
-            <v-textarea
-              v-model.trim="content"
-              label="댓글을 작성해주세요"
-              rows="2"
-              variant="outlined"
-              density="comfortable"
-              required
-            ></v-textarea>
-            <div class="d-flex justify-end">
-              <v-btn type="submit" color="primary" class="mt-2">
-                댓글 생성
-              </v-btn>
-            </div>
-          </v-form>
-        </v-card-actions>
-      </v-card>
-    </v-container>
-  </div>
+      <v-card-actions v-if="!editingCommentId">
+        <v-form @submit.prevent="createComment" class="w-100 pa-3">
+          <v-textarea
+            v-model.trim="content"
+            label="댓글을 작성해주세요"
+            rows="2"
+            variant="outlined"
+            density="comfortable"
+            required
+          ></v-textarea>
+          <div class="d-flex justify-end">
+            <v-btn type="submit" color="primary" class="mt-2">
+              댓글 생성
+            </v-btn>
+          </div>
+        </v-form>
+      </v-card-actions>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup>
