@@ -1,39 +1,50 @@
 import axios from 'axios'
-import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { defineStore } from 'pinia'
+import { useAuthStore } from './auth'
 
 export const useFinanceStore = defineStore(
   'Finance',
   () => {
+    const authStore = useAuthStore()
+
     const financialProducts = ref([])
     const selectedProduct = ref(null)
     const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
 
-    const getFinancialProducts = () => {
-      axios({
+    const getFinancialProducts = async () => {
+      await axios({
         method: 'get',
-        url: `${BACKEND_SERVER_URL}/finances/get_products_infos/`
+        url: `${BACKEND_SERVER_URL}/finances/infos/`,
       })
-        .then(res => {
+        .then((res) => {
           financialProducts.value = res.data.prdt_data
         })
         .catch((err) => console.log(err))
     }
 
-    const getProductDetail = (productUniqueId) => {
-      const product = financialProducts.value.find(product => product.unique_id === productUniqueId)
-      if (product) {
-        selectedProduct.value = product
-      } else {
-        console.log('상품을 찾을 수 없습니다.')
-      }
+    const getProductDetailFromServer = async (productUniqueId) => {
+      await axios({
+        method: 'get',
+        url: `${BACKEND_SERVER_URL}/finances/infos/${productUniqueId}/`,
+        headers: {
+          Authorization: `Token ${authStore.token}`,
+        },
+      })
+        .then((res) => {
+          console.log(res)
+          selectedProduct.value = res.data
+        })
+        .catch((error) => {
+          console.error('상품 정보 조회 실패:', error)
+        })
     }
 
-    return { 
-      financialProducts, 
+    return {
+      financialProducts,
       selectedProduct,
       getFinancialProducts,
-      getProductDetail
+      getProductDetailFromServer,
     }
   },
   { persist: true }

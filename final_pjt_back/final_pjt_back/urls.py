@@ -29,5 +29,4 @@ urlpatterns = [
     path('user/', include('accounts.urls')),                              # 회원 관련
     path('accounts/', include('dj_rest_auth.urls')),                      # 로그인 및 로그아웃
     path("finances/", include("finances.urls")),                          # 금융 상품 관련
-    path("exchange-rates/", include("exchange_rates.urls")),              # 환율 정보 관련
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

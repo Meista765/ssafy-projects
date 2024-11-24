@@ -3,17 +3,17 @@
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
         <h1 class="text-h4 mb-6">환율계산기</h1>
-        
+
         <v-card class="pa-4">
           <v-row>
             <v-col cols="12">
               <v-select
                 v-model="selectedCurrency"
-                :items="store.exchangeRates"
-                item-title="cur_nm"
-                item-value="cur_unit"
+                :items="currencyItems"
+                item-title="name"
+                item-value="ticker"
                 label="통화 선택"
-                @update:model-value="handleSelection"
+                @update:model-value="onInputForeignCurrency"
                 return-object
               ></v-select>
             </v-col>
@@ -22,10 +22,10 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
-                v-model.number="targetCurrency"
-                :label="`금액 (${selectedCurrency?.cur_unit || ''})`"
+                v-model.number="foreignCurrency"
+                :label="`금액 (${selectedCurrency?.symbol || ''})`"
                 type="number"
-                @input="onInputTargetCurrency"
+                @input="onInputForeignCurrency"
                 variant="outlined"
                 density="comfortable"
               ></v-text-field>
@@ -47,11 +47,7 @@
 
           <v-row>
             <v-col cols="12">
-              <v-alert
-                type="info"
-                variant="tonal"
-                density="comfortable"
-              >
+              <v-alert type="info" variant="tonal" density="comfortable">
                 * 엔화, 인도네시아 루피아는 100 단위, 나머지는 모두 1 단위
               </v-alert>
             </v-col>
@@ -63,61 +59,55 @@
 </template>
 
 <script setup>
-import { useExchangeRateStore } from '@/stores/exchangeRate'
-import { ref, computed, watch, onMounted } from 'vue'
-import {} from 'vue-router'
+import axios from 'axios'
+import { ref, computed, onMounted } from 'vue'
+import currencyMap from '@/assets/currency-map.json'
 
-// ===== 내장 모듈 =====
-const store = useExchangeRateStore()
+const EXCHANGE_RATE_API_KEY = import.meta.env.VITE_EXCHANGE_RATE_API_KEY
+const EXCHANGE_RATE_SERVER_URL = import.meta.env.VITE_EXCHANGE_RATE_SERVER_URL
+const baseCurrency = 'KRW'
 
-// ===== 변수 =====
-const selectedCurrency = ref(null) // 현재 선택된 옵션
-const targetCurrency = ref(0) // 대상 통화의 값
+const selectedCurrency = ref(null) // 현재 선택된 통화
+const foreignCurrency = ref(0) // 대상 통화의 값
 const krwCurrency = ref(0) // 원화의 값
+const conversionRates = ref(null) // 환율 데이터
 
-// ===== computed 변수 =====
-const dealBas = computed(() => {
-  return selectedCurrency.value?.kftc_deal_bas_r || 1
+const currencyItems = computed(() => {
+  return Object.entries(currencyMap).map(([ticker, [name, symbol]]) => ({
+    ticker,
+    name,
+    symbol,
+  }))
 })
 
-// ===== 이벤트 핸들러 =====
-const onInputTargetCurrency = () => {
-  krwCurrency.value = targetCurrency.value * dealBas.value
+const rate = computed(() => {
+  return conversionRates.value[selectedCurrency.value?.ticker]
+})
+
+const onInputForeignCurrency = () => {
+  krwCurrency.value = Math.round(foreignCurrency.value / rate.value)
 }
 
 const onInputKrwCurrency = () => {
-  targetCurrency.value = krwCurrency.value / dealBas.value
+  foreignCurrency.value = Math.round(krwCurrency.value * rate.value)
 }
 
-// ===== 함수 =====
-const handleSelection = () => {
-  console.log(`Selected value: ${selectedCurrency.value?.cur_nm}`)
-  console.log(`Deal base rate: ${dealBas.value}`)
-}
-
-// ===== 와쳐 =====
-watch(
-  /**
-   * 기본 선택 옵션을 미국 달러로 변경하며 빈 선택지를 없앰
-   */
-  () => store.exchangeRates,
-  (newRates) => {
-    if (newRates.length > 0 && !selectedCurrency.value) {
-      selectedCurrency.value = newRates.find(
-        (rate) => rate.cur_nm === '미국 달러'
-      )
-    }
-  },
-  { immediate: true }
-)
-
-// API에서 데이터 수집
 onMounted(async () => {
-  try {
-    await store.getExchangeRate() // 데이터를 Prefetch
-  } catch (error) {
-    console.error('환율 데이터를 가져오는 중 에러 발생:', error)
-  }
+  await axios({
+    method: 'get',
+    url: `${EXCHANGE_RATE_SERVER_URL}/${EXCHANGE_RATE_API_KEY}/latest/${baseCurrency}`,
+  })
+    .then((response) => {
+      conversionRates.value = response.data.conversion_rates
+    })
+    .then(() => {
+      selectedCurrency.value = currencyItems.value.find(
+        (currency) => currency.ticker === 'USD'
+      )
+    })
+    .catch((error) => {
+      console.error('환율 데이터를 가져오는 중 에러 발생:', error)
+    })
 })
 </script>
 

@@ -27,12 +27,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const signUp = async (payload) => {
-    try {
-      const response = await axios({
+    const signUp = async (payload) => {
+      await axios({
         method: 'post',
         url: `${BACKEND_SERVER_URL}/accounts/signup/`,
-        data: payload
+        data: payload,
       })
       
       if (response.data.key) {
@@ -65,39 +64,39 @@ export const useAuthStore = defineStore('auth', () => {
       })
   }
 
-  const logIn = async (payload) => {
-    try {
-      const response = await axios.post(
-        `${BACKEND_SERVER_URL}/accounts/login/`,
-        payload
-      )
-      token.value = response.data.key
-      username.value = payload.username
-      router.push({ name: 'ArticleView' })
-    } catch (error) {
-      console.error('로그인 실패:', error)
-      alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.')
+    const logIn = async (payload) => {
+      await axios({
+        method: 'post',
+        url: `${BACKEND_SERVER_URL}/accounts/login/`,
+        data: payload,
+      })
+        .then((response) => {
+          token.value = response.data.key
+          username.value = payload.username
+          router.go(-1)
+        })
+        .catch((error) => {
+          console.error('로그인 실패:', error)
+          alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.')
+        })
     }
-  }
 
-  const logOut = async () => {
-    try {
-      await axios.post(
-        `${BACKEND_SERVER_URL}/accounts/logout/`,
-        {},
-        {
-          headers: {
-            Authorization: `Token ${token.value}`
-          }
-        }
-      )
-      token.value = null
-      username.value = null
-      router.push({ name: 'LoginView' })
-    } catch (error) {
-      console.error('로그아웃 실패:', error)
+    const logOut = async () => {
+      await axios({
+        method: 'post',
+        url: `${BACKEND_SERVER_URL}/accounts/logout/`,
+        headers: {
+          Authorization: `Token ${token.value}`,
+        },
+      })
+        .then(() => {
+          token.value = null
+          username.value = null
+        })
+        .catch((error) => {
+          console.error('로그아웃 실패:', error)
+        })
     }
-  }
 
   return { 
     token,
@@ -112,6 +111,4 @@ export const useAuthStore = defineStore('auth', () => {
     getUserInfo,
 
   }
-}, {
-  persist: true
-})
+)
