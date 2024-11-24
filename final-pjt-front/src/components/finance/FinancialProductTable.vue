@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items="processedProducts" :sort-by="sortBy" :sort-desc="sortDesc"
+  <v-data-table :headers="visibleHeaders" :items="filteredProducts" :sort-by="sortBy" :sort-desc="sortDesc"
     class="elevation-1" @click:row="handleRowClick">
     <template v-slot:item.dcls_month="{ item }">
       {{ formatMonth(item.dcls_month) }}
@@ -71,6 +71,41 @@ const processedProducts = computed(() => {
     })
 
     return baseInfo
+  })
+})
+
+const props = defineProps({
+  selectedTerm: {
+    type: Number,
+    default: null
+  },
+  filters: {
+    type: Object,
+    default: () => ({
+      bank: null,
+      term: null,
+      category: null
+    })
+  }
+})
+
+// 보이는 헤더 계산
+const visibleHeaders = computed(() => {
+  if (!props.selectedTerm) return headers
+
+  return headers.filter(header => {
+    if (!header.key.startsWith('intr_rate_')) return true
+    const termNumber = parseInt(header.key.split('_')[2])
+    return termNumber === props.selectedTerm
+  })
+})
+
+// 필터링된 상품 목록
+const filteredProducts = computed(() => {
+  return processedProducts.value.filter(product => {
+    const bankMatch = !props.filters.bank || product.kor_co_nm === props.filters.bank
+    const categoryMatch = !props.filters.category || product.category === props.filters.category
+    return bankMatch && categoryMatch
   })
 })
 

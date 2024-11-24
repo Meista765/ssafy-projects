@@ -18,9 +18,12 @@ export const useFinanceStore = defineStore(
         url: `${BACKEND_SERVER_URL}/finances/infos/`,
       })
         .then((res) => {
+          console.log('상품 정보 조회 성공:', res)
           financialProducts.value = res.data.prdt_data
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.error('상품 정보 조회 실패:', err)
+        })
     }
 
     const getProductDetailFromServer = async (productUniqueId) => {
@@ -32,11 +35,11 @@ export const useFinanceStore = defineStore(
         },
       })
         .then((res) => {
-          console.log(res)
+          console.log('상품 상세 정보 조회 성공:', res)
           selectedProduct.value = res.data
         })
         .catch((error) => {
-          console.error('상품 정보 조회 실패:', error)
+          console.error('상품 상세 정보 조회 실패:', error)
         })
     }
 

@@ -1,18 +1,40 @@
 <template>
   <v-container>
-    <h2 class="mb-5">금융상품 정보</h2>
-    <FinancialProductTable />
+    <FinancialProductFilter 
+      :products="financeStore.financialProducts"
+      @update:filters="updateFilters"
+      @update:selectedTerm="updateSelectedTerm"
+    />
+    
+    <FinancialProductTable 
+      :filters="filters"
+      :selectedTerm="selectedTerm"
+    />
   </v-container>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref } from 'vue'
 import { useFinanceStore } from '@/stores/financialProduct'
+import FinancialProductFilter from '@/components/finance/FinancialProductFilter.vue'
 import FinancialProductTable from '@/components/finance/FinancialProductTable.vue'
 
 const financeStore = useFinanceStore()
-
-onMounted(() => {
-  financeStore.getFinancialProducts()
+const filters = ref({
+  bank: null,
+  term: null,
+  category: null
 })
+const selectedTerm = ref(null)
+
+const updateFilters = (newFilters) => {
+  filters.value = newFilters
+}
+
+const updateSelectedTerm = (term) => {
+  selectedTerm.value = term
+}
+
+// 컴포넌트 마운트 시 상품 데이터 로드
+financeStore.getFinancialProducts()
 </script> 
