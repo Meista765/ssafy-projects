@@ -1,7 +1,14 @@
 <template>
   <div class="chat-bot-container">
     <!-- 챗봇 버튼 -->
-    <v-btn class="chat-bot-button" color="primary" icon elevation="4" size="large" @click="toggleChat">
+    <v-btn
+      class="chat-bot-button"
+      color="primary"
+      icon
+      elevation="4"
+      size="large"
+      @click="toggleChat"
+    >
       <v-icon>{{ isOpen ? 'mdi-close' : 'mdi-robot' }}</v-icon>
     </v-btn>
 
@@ -16,17 +23,27 @@
       </v-card-title>
 
       <v-card-text class="chat-messages pa-4" ref="chatMessages">
-        <div v-for="(message, index) in displayMessages" :key="index" :class="['message', message.role]">
-          <v-card :color="message.role === 'assistant' ? 'grey-lighten-4' : 'primary'"
-            :class="[message.role === 'assistant' ? '' : 'text-white', 'message-card']" class="mb-2 px-3 py-2"
-            rounded="lg">
+        <div
+          v-for="(message, index) in displayMessages"
+          :key="index"
+          :class="['message', message.role]"
+        >
+          <v-card
+            :color="message.role === 'assistant' ? 'grey-lighten-4' : 'primary'"
+            :class="[
+              message.role === 'assistant' ? '' : 'text-white',
+              'message-card',
+            ]"
+            class="mb-2 px-3 py-2"
+            rounded="lg"
+          >
             {{ message.content }}
           </v-card>
         </div>
       </v-card-text>
 
       <v-card-actions class="pa-4 pt-0">
-        <v-textarea 
+        <v-textarea
           v-model.trim="userInput"
           placeholder="메시지를 입력하세요."
           variant="outlined"
@@ -36,9 +53,16 @@
           auto-grow
           rows="1"
           no-resize
-          class="chat-input">
+          class="chat-input"
+        >
           <template v-slot:append>
-            <v-btn color="primary" icon variant="text" @click="sendMessage" :disabled="!userInput.trim()">
+            <v-btn
+              color="primary"
+              icon
+              variant="text"
+              @click="sendMessage"
+              :disabled="!userInput.trim()"
+            >
               <v-icon>mdi-send</v-icon>
             </v-btn>
           </template>
@@ -49,28 +73,24 @@
 </template>
 
 <script setup>
-import OpenAI from 'openai'
-import { ref, watch, nextTick, computed } from 'vue' // Vue의 필수 기능들을 import
-
-// 프롬프트 파일 import
+import { ref, watch, nextTick, computed } from 'vue'
+import axios from 'axios'
 import chatbotInstructions from '@/assets/prompts/chatbot-instructions.txt?raw'
 
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true
-})
+const serverUrl = import.meta.env.VITE_BACKEND_SERVER_URL
 
 const isOpen = ref(false) // 챗봇 창의 열림/닫힘 상태를 관리하는 반응형 변수
 const userInput = ref('') // 사용자 입력을 저장하는 반응형 변수
 const messages = ref([
   {
-    role: "system",
-    content: chatbotInstructions
+    role: 'system',
+    content: chatbotInstructions,
   },
   {
-    role: "assistant",
-    content: "안녕하세요! 서비스 관련 궁금하신 점이 있으시다면 무엇이든 물어보세요."
-  }
+    role: 'assistant',
+    content:
+      '안녕하세요! 서비스 관련 궁금하신 점이 있으시다면 무엇이든 물어보세요.',
+  },
 ])
 
 // 채팅 메시지 창의 DOM 요소를 참조하기 위한 ref
@@ -78,7 +98,7 @@ const chatMessages = ref(null)
 
 // computed 속성 추가
 const displayMessages = computed(() => {
-  return messages.value.filter(message => message.role !== 'system')
+  return messages.value.filter((message) => message.role !== 'system')
 })
 
 // 챗봇 창을 열고 닫는 토글 함수
@@ -95,8 +115,8 @@ const sendMessage = async () => {
 
   // 사용자 메시지를 대화 내역에 추가
   messages.value.push({
-    role: "user",
-    content: trimmedUserInput
+    role: 'user',
+    content: trimmedUserInput,
   })
 
   await callChatGPT()
@@ -107,40 +127,36 @@ const sendMessage = async () => {
 // ChatGPT API를 호출 및 응답 처리
 const callChatGPT = async () => {
   try {
-    // API 호출하여 봇의 응답을 받아옴
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+    const response = await axios.post(`${serverUrl}/chatbot/chat/`, {
       messages: messages.value,
-      temperature: 0.7,
-      top_p: 1,
-    });
+    })
 
-    // console.log(response);
-
-    // 봇의 응답을 대화 내역에 추가
     messages.value.push({
-      role: "assistant",
-      content: response.choices[0].message.content
+      role: 'assistant',
+      content: response.data.message,
     })
   } catch (error) {
-    // 오류 발생 시 에러 메시지를 대화 내역에 추가
     messages.value.push({
-      role: "assistant",
-      content: '죄송합니다. 오류가 발생했습니다.'
+      role: 'assistant',
+      content: '죄송합니다. 오류가 발생했습니다.',
     })
   }
 }
 
 // 메시지 배열이 변경될 때마다 실행되는 감시자
 // 새 메시지가 추가될 때 스크롤을 자동으로 아래로 이동
-watch(messages, async () => {
-  // DOM 업데이트를 기다림
-  await nextTick()
-  // 채팅창이 존재하면 스크롤을 가장 아래로 이동
-  if (chatMessages.value) {
-    chatMessages.value.scrollTop = chatMessages.value.scrollHeight
-  }
-}, { deep: true }) // 깊은 감시 설정 (배열 내부 변화도 감지)
+watch(
+  messages,
+  async () => {
+    // DOM 업데이트를 기다림
+    await nextTick()
+    // 채팅창이 존재하면 스크롤을 가장 아래로 이동
+    if (chatMessages.value) {
+      chatMessages.value.scrollTop = chatMessages.value.scrollHeight
+    }
+  },
+  { deep: true }
+) // 깊은 감시 설정 (배열 내부 변화도 감지)
 </script>
 
 <style scoped>
