@@ -1,28 +1,73 @@
-asgiref==3.8.1
-certifi==2024.8.30
-cffi==1.17.1
-charset-normalizer==3.4.0
-colorama==0.4.6
-cryptography==43.0.3
-defusedxml==0.7.1
-dj-rest-auth==7.0.0
+### 웹 프레임워크 및 REST API
+# Django: 파이썬 웹 프레임워크
 Django==4.2.16
-django-allauth==0.61.1
-django-cors-headers==4.6.0
-django-environ==0.11.2
+# DRF: RESTful API 구축을 위한 툴킷
 djangorestframework==3.15.2
-idna==3.10
-importlib_metadata==8.5.0
-Markdown==3.7
+# Django 인증 시스템 확장
+django-allauth==0.61.1
+# CORS 설정 관리
+django-cors-headers==4.6.0
+# 환경변수 관리
+django-environ==0.11.2
+# REST 인증 기능
+dj-rest-auth==7.0.0
+
+### AI/자연어처리
+# OpenAI API 클라이언트
+openai==1.55.0
+# OpenAI 토큰 계산기
+tiktoken==0.8.0
+
+### 보안 및 인증
+# 암호화 기능
+cryptography==43.0.3
+# OAuth 인증
 oauthlib==3.2.2
-pycparser==2.22
-PyJWT==2.9.0
+# JWT 토큰 처리
+PyJWT==2.10.0
+# OpenID 인증
 python3-openid==3.2.0
+
+### HTTP/네트워크 통신
+# HTTPS 인증서 관리
+certifi==2024.8.30
+# 문자 인코딩 처리
+charset-normalizer==3.4.0
+# 국제화된 도메인명
+idna==3.10
+# HTTP 클라이언트
 requests==2.32.3
+# OAuth 요청 처리
 requests-oauthlib==2.0.0
-sqlparse==0.5.1
-tqdm==4.67.0
-typing_extensions==4.12.2
-tzdata==2024.2
+# HTTP 클라이언트 라이브러리
 urllib3==2.2.3
+
+### 개발 유틸리티
+# 터미널 색상 출력
+colorama==0.4.6
+# 마크다운 처리
+Markdown==3.7
+# 환경변수 관리
+python-dotenv==1.0.1
+# 진행률 표시
+tqdm==4.67.0
+
+### 기타 의존성
+# ASGI 인터페이스
+asgiref==3.8.1
+# C 확장 모듈 인터페이스
+cffi==1.17.1
+# XML 보안 처리
+defusedxml==0.7.1
+# 메타데이터 처리
+importlib_metadata==8.5.0
+# C 파서
+pycparser==2.22
+# SQL 파싱
+sqlparse==0.5.2
+# 타입 힌팅 확장
+typing_extensions==4.12.2
+# 시간대 데이터
+tzdata==2024.2
+# 임포트 유틸리티
 zipp==3.21.0
