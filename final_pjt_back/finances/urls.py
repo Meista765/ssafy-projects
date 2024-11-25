@@ -16,4 +16,7 @@ urlpatterns = [
 
     # GET: 상품 상세 정보 조회
     path('infos/<str:product_id>/', views.get_product_detail),
+
+    # POST: 추천 금융 상품
+    path('recommend-finance/<int:user_id>/', views.recommend_finance),
 ]

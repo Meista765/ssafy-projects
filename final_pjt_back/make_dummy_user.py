@@ -65,7 +65,8 @@ for i in tqdm(range(1, USER_COUNT + 1), desc="Generating user data"):
     annual_income = random.choice(['0', '1', '2', '3', '4', '5'])
     savings_goal = random.choice(['0', '1', '2', '3', '4', '5'])
     gender = random.choice(['M', 'F'])
-    
+    num_deposit = random.randint(1, 6)
+    num_savings = random.randint(1, 6)
     user = {
         "model": "accounts.User",
         "pk": i,
@@ -82,8 +83,8 @@ for i in tqdm(range(1, USER_COUNT + 1), desc="Generating user data"):
             "annual_income": annual_income,
             "savings_goal": savings_goal,
             # ManyToMany 관계 설정
-            "deposit_products": [deposit.pk for deposit in random.sample(deposits, min(3, len(deposits)))],
-            "savings_products": [saving.pk for saving in random.sample(savings, min(3, len(savings)))]
+            "deposit_products": [deposit.pk for deposit in random.sample(deposits, num_deposit)],
+            "savings_products": [saving.pk for saving in random.sample(savings, num_savings)]
         }
     }
     user_data.append(user)

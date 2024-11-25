@@ -55,4 +55,4 @@ def user_export():
 if __name__ == "__main__":
     depositproduct_export()
     installmentproducts_export()
-    user_export
+    user_export()
