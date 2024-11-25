@@ -1,73 +1,73 @@
-### ì›¹ í”„ë ˆìž„ì›Œí¬ ë° REST API
-# Django: íŒŒì´ì¬ ì›¹ í”„ë ˆìž„ì›Œí¬
+### À¥ ÇÁ·¹ÀÓ¿öÅ© ¹× REST API
+# Django: ÆÄÀÌ½ã À¥ ÇÁ·¹ÀÓ¿öÅ©
 Django==4.2.16
-# DRF: RESTful API êµ¬ì¶•ì„ ìœ„í•œ íˆ´í‚·
+# DRF: RESTful API ±¸ÃàÀ» À§ÇÑ ÅøÅ¶
 djangorestframework==3.15.2
-# Django ì¸ì¦ ì‹œìŠ¤í…œ í™•ìž¥
+# Django ÀÎÁõ ½Ã½ºÅÛ È®Àå
 django-allauth==0.61.1
-# CORS ì„¤ì • ê´€ë¦¬
+# CORS ¼³Á¤ °ü¸®
 django-cors-headers==4.6.0
-# í™˜ê²½ë³€ìˆ˜ ê´€ë¦¬
+# È¯°æº¯¼ö °ü¸®
 django-environ==0.11.2
-# REST ì¸ì¦ ê¸°ëŠ¥
+# REST ÀÎÁõ ±â´É
 dj-rest-auth==7.0.0
 
-### AI/ìžì—°ì–´ì²˜ë¦¬
-# OpenAI API í´ë¼ì´ì–¸íŠ¸
+### AI/ÀÚ¿¬¾îÃ³¸®
+# OpenAI API Å¬¶óÀÌ¾ðÆ®
 openai==1.55.0
-# OpenAI í† í° ê³„ì‚°ê¸°
+# OpenAI ÅäÅ« °è»ê±â
 tiktoken==0.8.0
 
-### ë³´ì•ˆ ë° ì¸ì¦
-# ì•”í˜¸í™” ê¸°ëŠ¥
+### º¸¾È ¹× ÀÎÁõ
+# ¾ÏÈ£È­ ±â´É
 cryptography==43.0.3
-# OAuth ì¸ì¦
+# OAuth ÀÎÁõ
 oauthlib==3.2.2
-# JWT í† í° ì²˜ë¦¬
+# JWT ÅäÅ« Ã³¸®
 PyJWT==2.10.0
-# OpenID ì¸ì¦
+# OpenID ÀÎÁõ
 python3-openid==3.2.0
 
-### HTTP/ë„¤íŠ¸ì›Œí¬ í†µì‹ 
-# HTTPS ì¸ì¦ì„œ ê´€ë¦¬
+### HTTP/³×Æ®¿öÅ© Åë½Å
+# HTTPS ÀÎÁõ¼­ °ü¸®
 certifi==2024.8.30
-# ë¬¸ìž ì¸ì½”ë”© ì²˜ë¦¬
+# ¹®ÀÚ ÀÎÄÚµù Ã³¸®
 charset-normalizer==3.4.0
-# êµ­ì œí™”ëœ ë„ë©”ì¸ëª…
+# ±¹Á¦È­µÈ µµ¸ÞÀÎ¸í
 idna==3.10
-# HTTP í´ë¼ì´ì–¸íŠ¸
+# HTTP Å¬¶óÀÌ¾ðÆ®
 requests==2.32.3
-# OAuth ìš”ì²­ ì²˜ë¦¬
+# OAuth ¿äÃ» Ã³¸®
 requests-oauthlib==2.0.0
-# HTTP í´ë¼ì´ì–¸íŠ¸ ë¼ì´ë¸ŒëŸ¬ë¦¬
+# HTTP Å¬¶óÀÌ¾ðÆ® ¶óÀÌºê·¯¸®
 urllib3==2.2.3
 
-### ê°œë°œ ìœ í‹¸ë¦¬í‹°
-# í„°ë¯¸ë„ ìƒ‰ìƒ ì¶œë ¥
+### °³¹ß À¯Æ¿¸®Æ¼
+# ÅÍ¹Ì³Î »ö»ó Ãâ·Â
 colorama==0.4.6
-# ë§ˆí¬ë‹¤ìš´ ì²˜ë¦¬
+# ¸¶Å©´Ù¿î Ã³¸®
 Markdown==3.7
-# í™˜ê²½ë³€ìˆ˜ ê´€ë¦¬
+# È¯°æº¯¼ö °ü¸®
 python-dotenv==1.0.1
-# ì§„í–‰ë¥  í‘œì‹œ
+# ÁøÇà·ü Ç¥½Ã
 tqdm==4.67.0
 
-### ê¸°íƒ€ ì˜ì¡´ì„±
-# ASGI ì¸í„°íŽ˜ì´ìŠ¤
+### ±âÅ¸ ÀÇÁ¸¼º
+# ASGI ÀÎÅÍÆäÀÌ½º
 asgiref==3.8.1
-# C í™•ìž¥ ëª¨ë“ˆ ì¸í„°íŽ˜ì´ìŠ¤
+# C È®Àå ¸ðµâ ÀÎÅÍÆäÀÌ½º
 cffi==1.17.1
-# XML ë³´ì•ˆ ì²˜ë¦¬
+# XML º¸¾È Ã³¸®
 defusedxml==0.7.1
-# ë©”íƒ€ë°ì´í„° ì²˜ë¦¬
+# ¸ÞÅ¸µ¥ÀÌÅÍ Ã³¸®
 importlib_metadata==8.5.0
-# C íŒŒì„œ
+# C ÆÄ¼­
 pycparser==2.22
-# SQL íŒŒì‹±
+# SQL ÆÄ½Ì
 sqlparse==0.5.2
-# íƒ€ìž… ížŒíŒ… í™•ìž¥
+# Å¸ÀÔ ÈùÆÃ È®Àå
 typing_extensions==4.12.2
-# ì‹œê°„ëŒ€ ë°ì´í„°
+# ½Ã°£´ë µ¥ÀÌÅÍ
 tzdata==2024.2
-# ìž„í¬íŠ¸ ìœ í‹¸ë¦¬í‹°
+# ÀÓÆ÷Æ® À¯Æ¿¸®Æ¼
 zipp==3.21.0
