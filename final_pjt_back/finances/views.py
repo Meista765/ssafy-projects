@@ -354,7 +354,6 @@ def recommend_finance(request,user_id):
             savings_products_data = {'id': savings_product['id'], 'fin_prdt_nm':savings_product['fin_prdt_nm'], 'kor_co_nm':savings_product['kor_co_nm']}
             user3_total_data['savingsproducts'].append(savings_products_data)
 
-
         data = {
             'similar_user1': user1_total_data,
             'similar_user2': user2_total_data,
