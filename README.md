@@ -170,7 +170,7 @@
 
 ### 1. 메인 페이지
 
-[01_mainpage.webm](https://github.com/user-attachments/assets/2a1edee6-7111-42aa-8a0c-0cb8bae6ac0f)
+[mainpage.webm](https://github.com/user-attachments/assets/21514e1f-a1fb-4d2c-8847-0f7c4be73f5a)
 
 - 메인 페이지에서 예금 및 적금 상품 조회, 가까운 은행 찾기, 환율 계산기, 챗봇 기능 제공
 
@@ -342,6 +342,8 @@
 ### 16. 챗봇
 
 > *API Key 문제로 시연 영상 촬영 불가*
+
+[chatbot.webm](https://github.com/user-attachments/assets/1f7d56b5-b127-427a-8264-426168c03849)
 
 - 웹 서비스 사용 편의성 향상을 위해 기능을 문의하면 관련 링크를 제시
 
