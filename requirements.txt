@@ -1,95 +1,55 @@
-### 웹 프레임워크 및 REST API
-# Django: 파이썬 웹 프레임워크
-Django==4.2.16
-# DRF: RESTful API 구축을 위한 툴킷
-djangorestframework==3.15.2
-# Django 인증 시스템 확장
-django-allauth==0.61.1
-# CORS 설정 관리
-django-cors-headers==4.6.0
-# 환경변수 관리
-django-environ==0.11.2
-# REST 인증 기능
-dj-rest-auth==7.0.0
+### Web Framework and REST API
+Django==4.2.16 # Django: Python Web Framework
+djangorestframework==3.15.2 # DRF: Toolkit for building RESTful APIs
+django-allauth==0.61.1 # Django Authentication System Extension
+django-cors-headers==4.6.0 # CORS Settings Management
+django-environ==0.11.2 # Environment Variable Management
+dj-rest-auth==7.0.0 # REST Authentication Features
 
-### AI/자연어처리
-# OpenAI API 클라이언트
-openai==1.55.0
-# OpenAI 토큰 계산기
-tiktoken==0.8.0
+### AI/Natural Language Processing
+openai==1.55.1 # OpenAI API Client
+tiktoken==0.8.0 # OpenAI Token Calculator
 
-### 보안 및 인증
-# 암호화 기능
-cryptography==43.0.3
-# OAuth 인증
-oauthlib==3.2.2
-# JWT 토큰 처리
-PyJWT==2.10.0
-# OpenID 인증
-python3-openid==3.2.0
+### Security and Authentication
+cryptography==43.0.3 # Cryptography Functions
+oauthlib==3.2.2 # OAuth Authentication
+PyJWT==2.10.0 # JWT Token Processing
+python3-openid==3.2.0 # OpenID Authentication
 
-### HTTP/네트워크 통신
-# HTTPS 인증서 관리
-certifi==2024.8.30
-# 문자 인코딩 처리
-charset-normalizer==3.4.0
-# 국제화된 도메인명
-idna==3.10
-# HTTP 클라이언트
-requests==2.32.3
-# OAuth 요청 처리
-requests-oauthlib==2.0.0
-# HTTP 클라이언트 라이브러리
-urllib3==2.2.3
+### HTTP/Network Communication
+certifi==2024.8.30 # SSL Certificate Verification
+charset-normalizer==3.4.0 # Unicode Normalization
+idna==3.10 # International Domain Name Handling
+requests==2.32.3 # HTTP Library for Python
+requests-oauthlib==2.0.0 # OAuth Library for Requests
+urllib3==2.2.3 # HTTP Client Library
 
-### 개발 유틸리티
-# 터미널 색상 출력
-colorama==0.4.6
-# 마크다운 처리
-Markdown==3.7
-# 환경변수 관리
-python-dotenv==1.0.1
-# 진행률 표시
-tqdm==4.67.0
+### Development Utilities
+colorama==0.4.6 # Terminal Text Coloring
+Markdown==3.7 # Markdown Text Processing
+python-dotenv==1.0.1 # Environment Variable Loading
+tqdm==4.67.1 # Progress Bar Implementation
 
-### 기타 의존성
-# ASGI 인터페이스
-asgiref==3.8.1
-# C 확장 모듈 인터페이스
-cffi==1.17.1
-# XML 보안 처리
-defusedxml==0.7.1
-# 메타데이터 처리
-importlib_metadata==8.5.0
-# C 파서
-pycparser==2.22
-# SQL 파싱
-sqlparse==0.5.2
-# 타입 힌팅 확장
-typing_extensions==4.12.2
-# 시간대 데이터
-tzdata==2024.2
-# 임포트 유틸리티
-zipp==3.21.0
+### Other Dependencies
+asgiref==3.8.1 # ASGI Specification Implementation
+cffi==1.17.1 # C Foreign Function Interface
+defusedxml==0.7.1 # XML Processing Security
+importlib_metadata==8.5.0 # Package Metadata Access
+pycparser==2.22 # C Parser in Python
+sqlparse==0.5.2 # SQL Parsing and Formatting
+typing_extensions==4.12.2 # Typing Hints Backport
+tzdata==2024.2 # Timezone Database
+zipp==3.21.0 # Pathlib-Compatible Zipfile Tools
 
-### 데이터 과학 및 머신러닝
-# 데이터 분석 및 조작
-pandas==2.2.3
-# 수치 연산
-numpy==2.0.2
-# 머신러닝 라이브러리
-scikit-learn==1.5.2
-# 과학적 연산
-scipy==1.13.1
-# 병렬 처리
-threadpoolctl==3.5.0
-# 머신러닝 유틸리티
-joblib==1.4.2
+### Data Science and Machine Learning
+pandas==2.2.3 # Data Analysis Library
+numpy==2.0.2 # Numerical Computing Library
+scikit-learn==1.5.2 # Machine Learning Toolkit
+scipy==1.13.1 # Scientific Computing Library
+threadpoolctl==3.5.0 # Thread Pool Control
+joblib==1.4.2 # Pipeline Parallelization
 
-### 유틸리티
-# 시간대 처리
-pytz==2024.2
-# 날짜/시간 처리
-python-dateutil==2.9.0.post0
-# 파이썬 2/3 호환성
-six==1.16.0
+### Utilities
+pytz==2024.2 # Timezone Calculations
+python-dateutil==2.9.0.post0 # Date/Time Manipulation
+six==1.16.0 # Python 2/3 Compatibility Layer

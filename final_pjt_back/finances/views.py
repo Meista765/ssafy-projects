@@ -202,7 +202,7 @@ def subscribe_financial_product(request):
     # 카테고리별 모델과 관계 매핑
     product_map = {
         "dep": (DepositProducts, "deposit_products"),
-        "ins": (InstallmentProducts, "installment_products"),
+        "ins": (InstallmentProducts, "savings_products"),
     }
     
     if category not in product_map:
@@ -243,7 +243,7 @@ def get_product_detail(request, product_id):
             return JsonResponse({'error': '잘못된 카테고리입니다.'}, status=status.HTTP_400_BAD_REQUEST)
         
         data = serializer.data
-        data['category'] = '��금' if category == 'dep' else '적금'
+        data['category'] = '예금' if category == 'dep' else '적금'
         data['unique_id'] = product_id
         
         # 구독 여부 확인
@@ -251,7 +251,7 @@ def get_product_detail(request, product_id):
             if category == 'dep':   
                 data['is_subscribed'] = request.user.deposit_products.filter(pk=pk).exists()
             else:
-                data['is_subscribed'] = request.user.installment_products.filter(pk=pk).exists()
+                data['is_subscribed'] = request.user.savings_products.filter(pk=pk).exists()
         
         return Response(data, status=status.HTTP_200_OK)
     except (DepositProducts.DoesNotExist, InstallmentProducts.DoesNotExist):
