@@ -1,6 +1,8 @@
+from pathlib import Path
+
 import os
 import environ
-from pathlib import Path
+
 
 # django-environ 설정
 env = environ.Env(
@@ -14,6 +16,7 @@ DEBUG = env('DEBUG')
 
 FINLIFE_API_KEY = env('FINLIFE_API_KEY')
 FINANCE_API_URL = env('FINANCE_API_URL')
+OPENAI_API_KEY = env('OPENAI_API_KEY')
 
 # ==========================================================
 # CORE SETTINGS
