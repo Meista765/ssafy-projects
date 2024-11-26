@@ -153,95 +153,106 @@
 
 ### 1. 메인 페이지
 
-<!-- <video width='1280' controls>
-  <source src='assets/video/01_mainpage.mp4' type='video/mp4'/>
-</video> -->
+[01_mainpage.webm](https://github.com/user-attachments/assets/2a1edee6-7111-42aa-8a0c-0cb8bae6ac0f)
 
-[[]('assets/video/01_mainpage.mp4')](https://github.com/Meista765/ssafy-projects/blob/dev/assets/video/01_mainpage.mp4)
 
 <hr>
 
 ### 2. 환율 계산기
 
-[]('assets/video/02_calc.mp4')
+[02_calc.webm](https://github.com/user-attachments/assets/40058cfd-52f7-43a6-95e7-4c4ed19bc3bf)
+
 
 <hr>
 
 ### 3. 가까운 은행 찾기
 
-[]('assets/video/03_bank.mp4')
+[03_bank.webm](https://github.com/user-attachments/assets/9a5d6b31-1ba2-4c86-98cf-fb905a75d643)
+
 
 <hr>
 
 ### 4.금융상품 전체 조회
 
-[]('assets/video/04_finance_inquiry_all.mp4')
+[04_finance_inquiry_all.webm](https://github.com/user-attachments/assets/ba459d6d-3eaf-41a7-821d-ac1bc8393814)
+
 
 <hr>
 
 ### 5. 금융상품 상세 조회
 
-[]('assets/video/05_finance_inquiry_detail.mp4')
+[05_finance_inquiry_detail.webm](https://github.com/user-attachments/assets/a7b6859d-afdb-425e-a401-104de3a2bb75)
+
 
 <hr>
 
 ### 6. 게시글 생성
 
-[]('assets/video/06_new_article.mp4')
+[06_new_article.webm](https://github.com/user-attachments/assets/ae8bf885-c81b-4bc8-bd10-2c71e9b5bd64)
+
 
 <hr>
 
 ### 7. 게시글 상세 조회
 
-[]('assets/video/07_article_detail.mp4')
+[07_article_detail.webm](https://github.com/user-attachments/assets/7d072e28-856c-4400-896b-44ff3b944f8d)
+
 
 <hr>
 
 ### 8. 게시글 수정
 
-[]('assets/video/08_update_article.mp4')
+[08_update_article.webm](https://github.com/user-attachments/assets/1d7dfd4c-0ae0-44c7-ace1-2ac097b90fca)
+
 
 <hr>
 
 ### 9. 댓글 생성, 수정, 삭제
 
-[]('assets/video/09_comments.mp4')
+[09_comments.webm](https://github.com/user-attachments/assets/6dae7dd5-4817-4ca0-81e6-405cca2efae0)
+
 
 <hr>
 
 ### 10. 권한에 따른 수정/삭제 제한
 
-[]('assets/video/10_article_auth.mp4')
+[10_article_auth.webm](https://github.com/user-attachments/assets/2e9e8f38-d9c4-4002-ad62-2bb3281f99d8)
+
 
 <hr>
 
 ### 11. 회원가입
 
-[]('assets/video/11_singup.mp4')
+[11_singup.webm](https://github.com/user-attachments/assets/ad301329-b49e-47c5-8eeb-8e924e3591d7)
+
 
 <hr>
 
 ### 12. 로그인, 로그아웃
 
-[]('assets/video/12_login_logout.mp4')
+[12_login_logout.webm](https://github.com/user-attachments/assets/ce3e0bb1-5ff1-4dac-a87a-f4ffa5b173c3)
+
 
 <hr>
 
 ### 13. 프로필 페이지, 회원 정보 수정
 
-[]('assets/video/13_profile_update_user_info.mp4')
+[13_profile_update_user_info.webm](https://github.com/user-attachments/assets/1250ade3-50a4-4f3e-8acd-3ef446f4de39)
+
 
 <hr>
 
 ### 14. 회원 탈퇴
 
-[]('assets/video/14_signout.mp4')
+[14_signout.webm](https://github.com/user-attachments/assets/b1af59a5-71ac-4e40-a93a-b863d662b3d5)
+
 
 <hr>
 
 ### 15. 상품 추천
 
-[]('assets/video/15_recommendation.mp4')
+[15_recommendation.webm](https://github.com/user-attachments/assets/ae1c300b-0e40-4f5d-89b4-b77b752b62ac)
+
 
 <hr>
 
