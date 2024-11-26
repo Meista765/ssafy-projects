@@ -53,3 +53,4 @@ joblib==1.4.2 # Pipeline Parallelization
 pytz==2024.2 # Timezone Calculations
 python-dateutil==2.9.0.post0 # Date/Time Manipulation
 six==1.16.0 # Python 2/3 Compatibility Layer
+drf-yasg==1.21.8 # Swagger UI for Django REST Framework

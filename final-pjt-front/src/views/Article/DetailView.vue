@@ -11,17 +11,26 @@
             <v-col cols="auto">
               <div class="mr-3">
                 <v-icon icon="mdi-account" class="mr-1"></v-icon>
-                <span class="mr-3">{{ articleStore.article?.username }}</span>
+                <span class="mr-3">
+                  {{ articleStore.article?.username }}
+                </span>
                 <v-icon icon="mdi-clock-outline" class="mr-1"></v-icon>
-                <span class="mr-3">{{ formatDate(articleStore.article?.created_at) }}</span>
+                <span class="mr-3">
+                  {{ formatDate(articleStore.article?.created_at) }}
+                </span>
               </div>
-              
-
-             
             </v-col>
           </v-row>
-          
+
           <v-col cols="auto" v-if="isAuthor">
+            <v-btn
+              color="primary"
+              variant="text"
+              density="comfortable"
+              @click="startEditingArticle"
+            >
+              수정
+            </v-btn>
             <v-btn
               color="error"
               variant="text"
@@ -29,13 +38,6 @@
               @click="deleteArticle"
             >
               삭제
-            </v-btn>
-            <v-btn
-              variant="text"
-              density="comfortable"
-              @click="startEditingArticle"
-            >
-              수정
             </v-btn>
           </v-col>
         </v-row>

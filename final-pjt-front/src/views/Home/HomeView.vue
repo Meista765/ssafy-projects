@@ -1,12 +1,7 @@
 <template>
   <v-container class="d-flex flex-column">
     <!-- 환영 메시지 -->
-    <v-row class="text-center mb-8">
-      <v-col>
-        <h1 class="text-h3 font-weight-bold mb-4 finders-shadow">Finders에 오신 것을 환영합니다</h1>
-        <p class="text-subtitle-1">모든 금융 서비스를 한 곳에서 편리하게 이용하세요</p>
-      </v-col>
-    </v-row>
+    <ViewTitle title="Finders에 오신 것을 환영합니다" subtitle="모든 금융 서비스를 한 곳에서 편리하게 이용하세요"/>
 
     <!-- 카드 목록 -->
     <v-row class="flex-grow-1 align-center" gap="16">
@@ -51,6 +46,7 @@
 
 <script setup>
 import '@mdi/font/css/materialdesignicons.css'
+import ViewTitle from '@/components/common/ViewTitle.vue';
 </script>
 
 <style scoped>

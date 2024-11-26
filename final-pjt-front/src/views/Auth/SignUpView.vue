@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-row justify="center" align="center">
-      <v-col cols="12" sm="8" md="6" lg="4">
+      <v-col>
         <v-card class="elevation-12 pa-6">
           <v-card-title class="text-h4 text-center mb-4">
             회원가입

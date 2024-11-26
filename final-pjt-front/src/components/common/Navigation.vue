@@ -2,7 +2,7 @@
   <v-container class="d-flex justify-space-between align-center">
     <!-- 좌측: 로고 -->
     <div class="d-flex align-center">
-      <router-link :to="{ name: 'HomeView' }" class="text-decoration-none">
+      <router-link :to="{ name: 'HomeView' }" class="text-decoration-none mr-2">
         <v-avatar size="48">
           <v-img :src="logoImg" alt="로고"></v-img>
         </v-avatar>
