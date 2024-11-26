@@ -97,6 +97,7 @@ REST_FRAMEWORK = {
     ],
 }
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # 이메일 인증을 요구하지 않도록 설정
 # custom register serializer
 REST_AUTH = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',

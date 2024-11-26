@@ -33,7 +33,7 @@ class User(AbstractUser):
     ]
 
     # 기본 정보
-    email = models.EmailField()
+    email = models.EmailField(null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
     birth_date = models.DateField(null=True)
     age = models.IntegerField(null=True)

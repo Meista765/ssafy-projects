@@ -44,6 +44,15 @@
               @click:append-inner="showPassword2 = !showPassword2"
             ></v-text-field>
 
+            <v-text-field
+              v-model="email"
+              label="email"
+              prepend-inner-icon="mdi-email-check-outline"
+              variant="outlined"
+              required
+              :rules="[v => !!v || '이메일을 입력해주세요']"
+            ></v-text-field>
+
             <v-row>
               <v-col col="6">
                 <v-text-field
@@ -188,6 +197,7 @@ import { useAuthStore } from '@/stores/auth'
 const username = ref(null)
 const password1 = ref(null)
 const password2 = ref(null)
+const email = ref(null)
 const showPassword1 = ref(false)
 const showPassword2 = ref(false)
 
@@ -292,6 +302,7 @@ const signUp = async function () {
       username: username.value,
       password1: password1.value,
       password2: password2.value,
+      email: email.value,
       first_name: first_name.value,
       last_name: last_name.value,
       gender: gender.value,

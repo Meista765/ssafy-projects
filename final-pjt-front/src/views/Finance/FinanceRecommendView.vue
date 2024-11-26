@@ -70,13 +70,13 @@
         </v-card>
 
         <!-- 추천 상품 표시 카드 -->
-        <v-card v-if="recommendProducts" class="mb-5" elevation="2">
+        <v-card v-if="financeStore.recommendProducts" class="mb-5" elevation="2">
           <v-card-title class="headline">
             {{ userInfo.user.last_name + userInfo.user.first_name }}님과 유사한 회원들은 이런 상품을 가입했습니다.
           </v-card-title>
           <v-card-text>
             <v-expansion-panels>
-              <v-expansion-panel v-for="(user, key) in recommendProducts" :key="key">
+              <v-expansion-panel v-for="(user, key) in financeStore.recommendProducts" :key="key">
                 <v-expansion-panel-title class="bg-grey-lighten-4">
                   <v-row align="center">
                     <v-col cols="10">
@@ -96,7 +96,7 @@
                     <v-list-item 
                     v-for="product in user.depositproducts" 
                     :key="product.id"
-                    :to="{ name: 'FinancialProductDetail', params: { productUniqueId: product.id }}">
+                    :to="{ name: 'FinancialProductDetail', params: { productUniqueId: 'dep_' + product.id.toString() }}">
                       <div class="grid grid-cols-1">
                         <div class="text-body-1 font-medium">
                           {{ product.fin_prdt_nm }}
@@ -119,7 +119,7 @@
                     <v-list-item 
                     v-for="product in user.savingsproducts" 
                     :key="product.id"
-                    :to="{ name: 'FinancialProductDetail', params: { productUniqueId: product.id }}">
+                    :to="{ name: 'FinancialProductDetail', params: { productUniqueId: 'ins_' + product.id.toString() }}">
                       <div class="grid grid-cols-1">
                         <div class="text-body-1 font-medium">
                           {{ product.fin_prdt_nm }}
@@ -152,7 +152,7 @@ import axios from 'axios';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-
+import { useFinanceStore } from '@/stores/financialProduct';
 
 // 은행 리스트 정의
 const bankList = [
@@ -180,9 +180,10 @@ const bankList = [
 const route = useRoute();
 const authStore = useAuthStore();
 const router = useRouter()
+const financeStore = useFinanceStore();
 const userId = route.params.id;
 
-const recommendProducts = ref(null);
+// const recommendProducts = ref(null);
 const error = ref(null);
 const loading = ref(false);
 
@@ -195,13 +196,7 @@ const form = ref({
   deposit_cnt: 0,
   savings_cnt: 0,
 });
-//  
-// const handleRowClick = (event, product) => {
-//   router.push({
-//     name: 'FinancialProductDetail',
-//     params: { productUniqueId: product.item.unique_id }
-//   })
-// }
+
 // 추천 상품 가져오기 함수
 const getRecommendProducts = async () => {
   loading.value = true;
@@ -217,8 +212,9 @@ const getRecommendProducts = async () => {
       }
     );
 
-    recommendProducts.value = response.data;
+    financeStore.setRecommendProducts(response.data)
     console.log('추천 정보 조회 성공', response.data);
+    console.log(financeStore.recommendProducts)
   } catch (err) {
     console.error('추천 정보 조회 실패', err);
     error.value = '추천 정보를 불러오는 데 실패했습니다. 다시 시도해주세요.';
@@ -239,7 +235,13 @@ const handleSubmit = () => {
   getRecommendProducts();
 };
 
-onMounted(getUserInfo);
+onMounted(() => {
+  getUserInfo();
+  if (!financeStore.recommendProducts) {
+    handleSubmit();
+  }
+});
+
 </script>
 
 <style scoped>

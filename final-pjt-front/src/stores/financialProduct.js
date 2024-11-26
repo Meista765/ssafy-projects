@@ -8,6 +8,7 @@ export const useFinanceStore = defineStore(
   () => {
     const authStore = useAuthStore()
 
+    const recommendProducts = ref(null)
     const financialProducts = ref([])
     const selectedProduct = ref(null)
     const BACKEND_SERVER_URL = import.meta.env.VITE_BACKEND_SERVER_URL
@@ -41,11 +42,16 @@ export const useFinanceStore = defineStore(
       }
     }
 
+    const setRecommendProducts = (data) => {
+      recommendProducts.value = data
+    }
     return {
       financialProducts,
       selectedProduct,
+      recommendProducts,
       getFinancialProducts,
       getProductDetailFromServer,
+      setRecommendProducts
     }
   },
   { persist: true }

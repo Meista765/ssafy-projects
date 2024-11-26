@@ -16,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
 # custom한 user 모델을 위해서 registerSerializer custom
 
 class CustomRegisterSerializer(RegisterSerializer):
+    email = serializers.EmailField(required=True)
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
     gender = serializers.ChoiceField(choices=User.GENDER_CHOICES, required=True)
@@ -33,6 +34,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         data = super().get_cleaned_data()
         data['first_name'] = self.validated_data.get('first_name', '')
         data['last_name'] = self.validated_data.get('last_name', '')
+        data['email'] = self.validated_data.get('email', '')
         data['gender'] = self.validated_data.get('gender', '')
         data['birth_date'] = self.validated_data.get('birth_date', None)
         data['age'] = self.validated_data.get('age', None)
@@ -46,6 +48,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         user = super().save(request)
         user.first_name = self.cleaned_data.get('first_name')
         user.last_name = self.cleaned_data.get('last_name')
+        user.email = self.cleaned_data.get('email')
         user.gender = self.cleaned_data.get('gender')
         user.birth_date = self.cleaned_data.get('birth_date')
         user.age = self.cleaned_data.get('age')
