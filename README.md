@@ -153,107 +153,96 @@
 
 ### 1. 메인 페이지
 
-<video width='1280' controls>
+<!-- <video width='1280' controls>
   <source src='assets/video/01_mainpage.mp4' type='video/mp4'/>
-</video>
+</video> -->
+
+[]('assets/video/01_mainpage.mp4')
+
 <hr>
 
 ### 2. 환율 계산기
 
-<video width='1280' controls>
-  <source src='assets/video/02_calc.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/02_calc.mp4')
+
 <hr>
 
 ### 3. 가까운 은행 찾기
 
-<video width='1280' controls>
-  <source src='assets/video/03_bank.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/03_bank.mp4')
+
 <hr>
 
 ### 4.금융상품 전체 조회
 
-<video width='1280' controls>
-  <source src='assets/video/04_finance_inquiry_all.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/04_finance_inquiry_all.mp4')
+
 <hr>
 
 ### 5. 금융상품 상세 조회
 
-<video width='1280' controls>
-  <source src='assets/video/05_finance_inquiry_detail.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/05_finance_inquiry_detail.mp4')
+
 <hr>
 
 ### 6. 게시글 생성
 
-<video width='1280' controls>
-  <source src='assets/video/06_new_article.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/06_new_article.mp4')
+
 <hr>
 
 ### 7. 게시글 상세 조회
 
-<video width='1280' controls>
-  <source src='assets/video/07_article_detail.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/07_article_detail.mp4')
+
 <hr>
 
 ### 8. 게시글 수정
 
-<video width='1280' controls>
-  <source src='assets/video/08_update_article.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/08_update_article.mp4')
+
 <hr>
 
 ### 9. 댓글 생성, 수정, 삭제
 
-<video width='1280' controls>
-  <source src='assets/video/09_comments.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/09_comments.mp4')
+
 <hr>
 
 ### 10. 권한에 따른 수정/삭제 제한
 
-<video width='1280' controls>
-  <source src='assets/video/10_article_auth.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/10_article_auth.mp4')
+
 <hr>
 
 ### 11. 회원가입
 
-<video width='1280' controls>
-  <source src='assets/video/11_singup.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/11_singup.mp4')
+
 <hr>
 
 ### 12. 로그인, 로그아웃
 
-<video width='1280' controls>
-  <source src='assets/video/12_login_logout.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/12_login_logout.mp4')
+
 <hr>
 
 ### 13. 프로필 페이지, 회원 정보 수정
 
-<video width='1280' controls>
-  <source src='assets/video/13_profile_update_user_info.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/13_profile_update_user_info.mp4')
+
 <hr>
 
 ### 14. 회원 탈퇴
 
-<video width='1280' controls>
-  <source src='assets/video/14_signout.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/14_signout.mp4')
+
 <hr>
 
 ### 15. 상품 추천
 
-<video width='1280' controls>
-  <source src='assets/video/15_recommendation.mp4' type='video/mp4'/>
-</video>
+[]('assets/video/15_recommendation.mp4')
+
 <hr>
 
 ## 배운점
