@@ -44,7 +44,9 @@ export const useFinanceStore = defineStore(
 
     const setRecommendProducts = (data) => {
       recommendProducts.value = data
+      console.log(recommendProducts.value)
     }
+
     return {
       financialProducts,
       selectedProduct,

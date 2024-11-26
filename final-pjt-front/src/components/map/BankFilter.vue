@@ -9,6 +9,7 @@
         variant="outlined"
         density="comfortable"
         class="mb-4"
+        bg-color="surface"
       ></v-select>
 
       <!-- 시/군/구 선택 -->
@@ -20,6 +21,7 @@
         density="comfortable"
         class="mb-4"
         :disabled="!selectedProvince"
+        bg-color="surface"
       ></v-select>
 
       <!-- 은행 브랜드 선택 -->
@@ -30,6 +32,7 @@
         variant="outlined"
         density="comfortable"
         class="mb-4"
+        bg-color="surface"
       ></v-select>
 
       <v-btn
@@ -37,6 +40,7 @@
         color="primary"
         block
         class="mt-2"
+        :elevation="2"
       >
         찾기
       </v-btn>

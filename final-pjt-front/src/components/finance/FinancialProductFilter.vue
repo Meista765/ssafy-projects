@@ -1,34 +1,44 @@
 <template>
-  <v-card class="pa-4 mb-4">
-    <v-row>
-      <v-col cols="12" md="4">
-        <v-select
-          v-model="selectedCategory"
-          :items="categoryListWithAll"
-          label="상품구분"
-          @update:modelValue="updateFilters"
-        ></v-select>
-      </v-col>
+  <v-row class="mb-4">
+    <v-col cols="12" md="4">
+      <v-select
+        v-model="selectedCategory"
+        :items="categoryListWithAll"
+        label="상품구분"
+        variant="outlined"
+        density="comfortable"
+        bg-color="surface"
+        hide-details
+        @update:model-value="updateFilters"
+      ></v-select>
+    </v-col>
 
-      <v-col cols="12" md="4">
-        <v-select
-          v-model="selectedBank"
-          :items="bankListWithAll"
-          label="은행 선택"
-          @update:modelValue="updateFilters"
-        ></v-select>
-      </v-col>
-
-      <v-col cols="12" md="4">
-        <v-select
-          v-model="selectedTerm"
-          :items="termListWithAll"
-          label="예치기간"
-          @update:modelValue="updateFilters"
-        ></v-select>
-      </v-col>
-    </v-row>
-  </v-card>
+    <v-col cols="12" md="4">
+      <v-select
+        v-model="selectedBank"
+        :items="bankListWithAll"
+        label="은행 선택"
+        variant="outlined"
+        density="comfortable"
+        bg-color="surface"
+        hide-details
+        @update:model-value="updateFilters"
+      ></v-select>
+    </v-col>
+    
+    <v-col cols="12" md="4">
+      <v-select
+        v-model="selectedTerm"
+        :items="termListWithAll"
+        label="예치기간"
+        variant="outlined"
+        density="comfortable"
+        bg-color="surface"
+        hide-details
+        @update:model-value="updateFilters"
+      ></v-select>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup>

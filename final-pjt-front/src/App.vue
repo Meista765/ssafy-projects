@@ -15,8 +15,8 @@
 
 
 <script setup>
-import TheNavigation from '@/components/common/TheNavigation.vue'
-import TheFooter from '@/components/common/TheFooter.vue'
+import TheNavigation from '@/components/common/Navigation.vue'
+import TheFooter from '@/components/common/Footer.vue'
 import ChatBot from '@/components/common/ChatBot.vue';
 </script>
 

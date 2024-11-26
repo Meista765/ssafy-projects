@@ -1,141 +1,133 @@
 <template>
-  <v-container v-if="userInfo?.user" class="mt-5" fluid>
+  <v-container v-if="userInfo?.user" fluid>
+    <ViewTitle 
+      title="프로필" 
+      subtitle="회원님의 상세 정보를 확인하세요"
+    />
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6">
         <v-card>
           <v-card-title class="text-center">
             <v-avatar size="100">
-              <!-- 사용자 프로필 이미지가 있다면 src에 넣기 -->
-              <!-- <v-img :src="userInfo.profile_image" /> -->
-              <!-- 기본 아이콘 사용 -->
               <v-icon size="150">mdi-account-circle</v-icon>
             </v-avatar>
           </v-card-title>
-          
+
           <v-card-subtitle class="text-center mb-4">
-            {{ userInfo.user.last_name }}{{ userInfo.user.first_name }} 
+            {{ userInfo.user.last_name }}{{ userInfo.user.first_name }}
           </v-card-subtitle>
-          
+
           <v-divider></v-divider>
-          
-          <v-list dense>
-            <!-- <v-list-item>
-              <v-list-item-icon>
-                <v-icon color="primary">mdi-email</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title class="font-weight-bold">아이디</v-list-item-title>
-                <v-list-item-subtitle>{{ userInfo.username }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item> -->
-            
-            <!-- 수정된 "성별" 항목 -->
-            <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="primary">mdi-gender-male-female</v-icon>
-              </template>
-              <div>
-                <v-list-item-title>성별</v-list-item-title>
-                <v-list-item-subtitle>{{ genderDisplay }}</v-list-item-subtitle>
-              </div>
-            </v-list-item>
-            
-            <!-- 나머지 항목들 -->
-            <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="primary">mdi-calendar</v-icon>
-              </template>
-              <div>
-                <v-list-item-title>생년월일</v-list-item-title>
-                <v-list-item-subtitle>{{ userInfo.user.birth_date }}</v-list-item-subtitle>
-              </div>
-            </v-list-item>
-            
-            <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="primary">mdi-human-male-female</v-icon>
-              </template>
-              <div>
-                <v-list-item-title>나이</v-list-item-title>
-                <v-list-item-subtitle>{{ userInfo.user.age }}세</v-list-item-subtitle>
-              </div>
-            </v-list-item>
-            
-            <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="primary">mdi-finance</v-icon>
-              </template>
-              <div>
-                <v-list-item-title>투자 성향</v-list-item-title>
-                <v-list-item-subtitle>{{ investmentStyleDisplay }}</v-list-item-subtitle>
-              </div>
-            </v-list-item>
-            
-            <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="primary">mdi-currency-krw</v-icon>
-              </template>
-              <div>
-                <v-list-item-title>연소득</v-list-item-title>
-                <v-list-item-subtitle>{{ annualIncomeDisplay }}</v-list-item-subtitle>
-              </div>
-            </v-list-item>
-            
-            <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="primary">mdi-target</v-icon>
-              </template>
-              <div>
-                <v-list-item-title>목표 저축액</v-list-item-title>
-                <v-list-item-subtitle>{{ savingsGoalDisplay }}</v-list-item-subtitle>
-              </div>
+
+          <v-list density="compact" id="user-info-list">
+            <v-list-item
+              prependIcon="mdi-gender-male-female"
+              color="primary"
+            >
+              <v-list-item-title>성별</v-list-item-title>
+              <v-list-item-text>{{ genderDisplay }}</v-list-item-text>
             </v-list-item>
 
-            <!--가입한 예금 상품 -->
-            <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="primary">mdi-piggy-bank-outline
-                </v-icon>
-              </template>
-              <div>
-                <v-list-item-title>가입한 예금 상품</v-list-item-title>
-                <div v-if="userInfo.deposit.length > 0">
-                  <v-list-item-subtitle v-for="deposit in userInfo.deposit" :key="deposit.id">
+            <v-divider></v-divider>
+
+            <v-list-item
+              prependIcon="mdi-calendar"
+              color="primary"
+            >
+              <v-list-item-title>생년월일</v-list-item-title>
+              <v-list-item-text>{{ userInfo.user.birth_date }}</v-list-item-text>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list-item
+              prependIcon="mdi-human-male-female"
+              color="primary"
+            >
+              <v-list-item-title>나이</v-list-item-title>
+              <v-list-item-text>{{ userInfo.user.age }}세</v-list-item-text>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list-item
+              prependIcon="mdi-finance"
+              color="primary"
+            >
+              <v-list-item-title>투자 성향</v-list-item-title>
+              <v-list-item-text>{{ investmentStyleDisplay }}</v-list-item-text>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list-item
+              prependIcon="mdi-currency-krw"
+              color="primary"
+            >
+              <v-list-item-title>연소득</v-list-item-title>
+              <v-list-item-text>{{ annualIncomeDisplay }}</v-list-item-text>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list-item
+              prependIcon="mdi-target"
+              color="primary"
+            >
+              <v-list-item-title>목표 저축액</v-list-item-title>
+              <v-list-item-text>{{ savingsGoalDisplay }}</v-list-item-text>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list-item
+              prependIcon="mdi-piggy-bank-outline"
+              color="primary"
+              class="py-2"
+            >
+              <v-list-item-title>가입한 예금 상품</v-list-item-title>
+              <template v-if="userInfo.deposit.length > 0">
+                <div v-for="deposit in userInfo.deposit" :key="deposit.id">
+                  <v-btn
+                    variant="text"
+                    class="pa-0"
+                    :to="{ name: 'FinancialProductDetail', params: { productUniqueId: 'dep_' + deposit.id } }"
+                  >
                     {{ deposit.fin_prdt_nm }}
-                  </v-list-item-subtitle>
+                  </v-btn>
                 </div>
-                <div v-else>
-                  <v-list-item-subtitle>
-                    아직 가입한 예금 상품이 없습니다.
-                  </v-list-item-subtitle>
-                </div>
-              </div>
+              </template>
+              <v-list-item-text v-else>
+                아직 가입한 예금 상품이 없습니다.
+              </v-list-item-text>
             </v-list-item>
 
-            <!--가입한 적금 상품-->
-             <v-list-item>
-              <template v-slot:prepend>
-                <v-icon color="primary">mdi-piggy-bank
-                </v-icon>
-              </template>
-              <div>
-                <v-list-item-title>가입한 적금 상품</v-list-item-title>
-                <div v-if="userInfo.installments.length >0">
-                  <v-list-item-subtitle v-for="installments in userInfo.installments" :key="installments.id">
+            <v-divider></v-divider>
+
+            <v-list-item
+              prependIcon="mdi-piggy-bank"
+              color="primary"
+            >
+              <v-list-item-title>가입한 적금 상품</v-list-item-title>
+              <template v-if="userInfo.installments.length > 0">
+                <div v-for="installments in userInfo.installments" :key="installments.id">
+                  <v-btn
+                    variant="text"
+                    class="pa-0"
+                    :to="{ name: 'FinancialProductDetail', params: { productUniqueId: 'ins_' + installments.id } }"
+                  >
                     {{ installments.fin_prdt_nm }}
-                  </v-list-item-subtitle>
+                  </v-btn>
                 </div>
-                <div v-else>
-                  <v-list-item-subtitle>
-                    아직 가입한 예금 상품이 없습니다.
-                  </v-list-item-subtitle>
-                </div>
-              </div>
+              </template>
+              <v-list-item-text v-else>
+                아직 가입한 적금 상품이 없습니다.
+              </v-list-item-text>
             </v-list-item>
           </v-list>
-          
+
           <v-divider></v-divider>
-          
+
           <v-card-actions class="justify-end">
             <v-btn color="red" dark @click="confirmSignOut">
               <v-icon left>mdi-account-remove</v-icon>
@@ -149,7 +141,7 @@
         </v-card>
       </v-col>
     </v-row>
-    
+
     <!-- 탈퇴 확인 다이얼로그 -->
     <v-dialog v-model="dialog" max-width="500">
       <v-card>
@@ -183,6 +175,8 @@ import { ref, onMounted, computed } from 'vue';
 
 import { useAuthStore } from '@/stores/auth';
 import { useRoute, useRouter } from 'vue-router';
+
+import ViewTitle from '@/components/common/ViewTitle.vue'
 
 // 변수
 const authStore = useAuthStore();
@@ -270,7 +264,7 @@ const signOut = function () {
 
 // 회원정보 변경 액션
 const changeUserInfo = function () {
-  router.push({ name: 'ChangeUserInfoView', params: { id: route.params.id}})
+  router.push({ name: 'ChangeUserInfoView', params: { id: route.params.id } })
 }
 // 라이프사이클 훅
 onMounted(getUserInfo)
@@ -280,7 +274,20 @@ onMounted(getUserInfo)
 .v-card {
   padding: 20px;
 }
+
 .headline {
+  font-weight: bold;
+}
+
+#user-info-list {
+  padding: 0
+}
+
+#user-info-list .v-list-item {
+  padding: 0.5rem
+}
+
+#user-info-list .v-list-item-title {
   font-weight: bold;
 }
 </style>

@@ -1,15 +1,22 @@
 <template>
   <v-container>
-    <FinancialProductFilter 
-      :products="financeStore.financialProducts"
-      @update:filters="updateFilters"
-      @update:selectedTerm="updateSelectedTerm"
+    <ViewTitle 
+      title="금융상품 정보" 
+      subtitle="최적의 금융상품을 한눈에 비교하세요"
+      icon="mdi-bank"
     />
-    
-    <FinancialProductTable 
-      :filters="filters"
-      :selectedTerm="selectedTerm"
-    />
+    <v-card class="pa-4">
+      <FinancialProductFilter
+        :products="financeStore.financialProducts"
+        @update:filters="updateFilters"
+        @update:selectedTerm="updateSelectedTerm"
+      />
+      
+      <FinancialProductTable
+        :filters="filters"
+        :selectedTerm="selectedTerm"
+      />
+    </v-card>
   </v-container>
 </template>
 
@@ -18,7 +25,7 @@ import { ref } from 'vue'
 import { useFinanceStore } from '@/stores/financialProduct'
 import FinancialProductFilter from '@/components/finance/FinancialProductFilter.vue'
 import FinancialProductTable from '@/components/finance/FinancialProductTable.vue'
-
+import ViewTitle from '@/components/common/ViewTitle.vue'
 const financeStore = useFinanceStore()
 const filters = ref({
   bank: null,

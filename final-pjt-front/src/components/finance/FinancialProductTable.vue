@@ -1,6 +1,12 @@
 <template>
-  <v-data-table :headers="visibleHeaders" :items="filteredProducts" :sort-by="sortBy" :sort-desc="sortDesc"
-    class="elevation-1" @click:row="handleRowClick">
+  <v-data-table
+    :headers="visibleHeaders"
+    :items="filteredProducts"
+    :sort-by="sortBy"
+    :sort-desc="sortDesc"
+    class="elevation-1"
+    @click:row="handleRowClick"
+  >
     <template v-slot:item.dcls_month="{ item }">
       {{ formatMonth(item.dcls_month) }}
     </template>

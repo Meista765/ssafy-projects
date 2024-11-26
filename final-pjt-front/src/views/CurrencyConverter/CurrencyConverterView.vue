@@ -1,9 +1,11 @@
 <template>
   <v-container>
+    <ViewTitle 
+      title="환율 계산기" 
+      subtitle="실시간 환율 정보로 빠르고 정확한 환전 계산"
+    />
     <v-row justify="center">
-      <v-col cols="12" sm="8" md="6">
-        <h1 class="text-h4 mb-6">환율계산기</h1>
-
+      <v-col cols="8">
         <v-card class="pa-4">
           <v-row>
             <v-col cols="12">
@@ -13,6 +15,10 @@
                 item-title="name"
                 item-value="ticker"
                 label="통화 선택"
+                variant="outlined"
+                density="comfortable"
+                bg-color="surface"
+                hide-details
                 @update:model-value="onInputForeignCurrency"
                 return-object
               ></v-select>
@@ -28,6 +34,8 @@
                 @input="onInputForeignCurrency"
                 variant="outlined"
                 density="comfortable"
+                bg-color="surface"
+                hide-details
               ></v-text-field>
             </v-col>
           </v-row>
@@ -41,6 +49,8 @@
                 @input="onInputKrwCurrency"
                 variant="outlined"
                 density="comfortable"
+                bg-color="surface"
+                hide-details
               ></v-text-field>
             </v-col>
           </v-row>
@@ -62,6 +72,7 @@
 import axios from 'axios'
 import { ref, computed, onMounted } from 'vue'
 import currencyMap from '@/assets/currency-map.json'
+import ViewTitle from '@/components/common/ViewTitle.vue'
 
 const EXCHANGE_RATE_API_KEY = import.meta.env.VITE_EXCHANGE_RATE_API_KEY
 const EXCHANGE_RATE_SERVER_URL = import.meta.env.VITE_EXCHANGE_RATE_SERVER_URL
