@@ -186,8 +186,8 @@
 (ex. 미국 달러를 선택한 경우, 원화 입력칸의 값을 수정 -> 미국 달러 값이 계산 / 미국 달러칸의 값을 수정 -> 원화 값이 계산되어 보임)
 
 <p align="center">
-  <img src='assets/image/exchange_1.png' width="200" height="150"/>
-  <img src='assets/image/exchange_2.png' width="200" height="150"/>
+  <img src='assets/image/exchange_1.png' max-width="49%" height="300px"/>
+  <img src='assets/image/exchange_2.png' max-width="49%" height="300px"/>
 </p>
 
 - - -
@@ -201,7 +201,7 @@
 - 지도에 표시된 위치를 클릭하면 해당 위치의 은행 위치 정보를 확인 가능
 
 <p align='center'>
-  <img src='assets/image/find_bank_map.png' width="300" height="200">
+  <img src='assets/image/find_bank_map.png' max-width="49%" height="300px"/>
 </p>
 
 - - -
@@ -214,7 +214,7 @@
 - 필터 기능을 추가해 상품 구분(예적금), 은행 브랜드, 저축 기간을 필터링하여 원하는 상품 조회 가능
 
 <p align="center">
-  <img src='assets/image/finance_total_search.png' width="300" height="200"/>
+  <img src='assets/image/finance_total_search.png' width="49%"/>
 </p>
 
 - - -
@@ -228,8 +228,8 @@
 - 로그인한 유저에 한해 상품 가입 및 해지 버튼이 활성화
 
 <p align="center">
-  <img src='assets/image/finance_detail_page_1.png' width="200" height="150"/>
-   <img src='assets/image/finance_detail_page_2.png' width="200" height="150"/>
+  <img src='assets/image/finance_detail_page_1.png' width="49%"/>
+   <img src='assets/image/finance_detail_page_2.png' width="49%"/>
 </p>
 
 - - -
@@ -241,8 +241,8 @@
 - 추가정보(주거래은행, 예금, 적금 상품 가입 수)를 입력하면 자신과 비슷한 회원이 가입한 상품 추천
 
 <p align="center">
-  <img src='assets/image/recommend_product_1.png' width="200" height="150"/>
-  <img src='assets/image/recommend_product_2.png' width="200" height="150"/>
+  <img src='assets/image/recommend_product_1.png' width="49%"/>
+  <img src='assets/image/recommend_product_2.png' width="49%"/>
 </p>
 
 - **상품 추천 알고리즘**
@@ -302,8 +302,8 @@
 - user모델 커스텀을 통해 필드 추가
 
 <p align="center">
-  <img src='assets/image/signup_1.png' width="200" height="150"/>
-  <img src='assets/image/signup_2.png' width="200" height="150"/>
+  <img src='assets/image/signup_1.png' max-width="49%" height="500px"/>
+  <img src='assets/image/signup_2.png' max-width="49%" height="500px"/>
 </p>
 
 - - -
@@ -322,12 +322,12 @@
 - 프로필 페이지에서 회원 정보 조회, 수정, 회원 탈퇴 가능
 
 <p align="center">
-  <img src='assets/image/profile_1.png' width="200" height="150"/>
-  <img src='assets/image/profile_2.png' width="200" height="150"/>
+  <img src='assets/image/profile_1.png' max-width="49%" height="300px"/>
+  <img src='assets/image/profile_2.png' max-width="49%" height="300px"/>
 </p>
 
 <p align="center">
-  <img src='assets/image/userinfo_update.png' width="300" height="200"/>
+  <img src='assets/image/userinfo_update.png' max-width="49%" height="300px"/>
 </p>
 
 - - -
