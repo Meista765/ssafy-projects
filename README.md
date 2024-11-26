@@ -157,7 +157,7 @@
   <source src='assets/video/01_mainpage.mp4' type='video/mp4'/>
 </video> -->
 
-[]('assets/video/01_mainpage.mp4')
+[[]('assets/video/01_mainpage.mp4')](https://github.com/Meista765/ssafy-projects/blob/dev/assets/video/01_mainpage.mp4)
 
 <hr>
 
