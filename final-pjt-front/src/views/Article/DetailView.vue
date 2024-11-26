@@ -9,11 +9,15 @@
         <v-row no-gutters align="center" justify="space-between">
           <v-row no-gutters align="center">
             <v-col cols="auto">
-              <v-icon icon="mdi-account" class="mr-1"></v-icon>
-              <v-text class="mr-3">{{ articleStore.article?.user }}</v-text>
+              <div class="mr-3">
+                <v-icon icon="mdi-account" class="mr-1"></v-icon>
+                <span class="mr-3">{{ articleStore.article?.username }}</span>
+                <v-icon icon="mdi-clock-outline" class="mr-1"></v-icon>
+                <span class="mr-3">{{ formatDate(articleStore.article?.created_at) }}</span>
+              </div>
+              
 
-              <v-icon icon="mdi-clock-outline" class="mr-1"></v-icon>
-              <v-text class="mr-3">{{ formatDate(articleStore.article?.created_at) }}</v-text>
+             
             </v-col>
           </v-row>
           

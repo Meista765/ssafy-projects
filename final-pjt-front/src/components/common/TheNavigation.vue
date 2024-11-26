@@ -22,6 +22,12 @@
     <!-- 우측: 사용자 관련 버튼 -->
     <div>
       <template v-if="authStore.isLogin">
+        <v-btn 
+          v-if="userId"
+          :to="{ name: 'FinanceRecommendView', params: { id: userId } }"
+          >
+          금융상품추천
+        </v-btn>
         <v-btn
           v-if="userId"
           :to="{ name: 'ProFileView', params: { id: userId } }"

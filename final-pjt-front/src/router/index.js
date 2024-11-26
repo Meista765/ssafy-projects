@@ -21,6 +21,7 @@ import FinancialProductView from '@/views/Finance/FinancialProductView.vue'
 import FinancialProductDetailView from '@/views/Finance/FinancialProductDetailView.vue'
 import HomeView from '@/views/Home/HomeView.vue'
 import NotFound from '@/components/common/NotFound.vue'
+import FinanceRecommendView from '@/views/Finance/FinanceRecommendView.vue'
 
 
 const router = createRouter({
@@ -53,6 +54,12 @@ const router = createRouter({
       path: '/financial-product/:productUniqueId',
       name: 'FinancialProductDetail',
       component: FinancialProductDetailView
+    },
+    // 금융 상품 추천
+    {
+      path: '/finance-recommend/:id',
+      name: 'FinanceRecommendView',
+      component: FinanceRecommendView
     },
     // 은행 지도
     {

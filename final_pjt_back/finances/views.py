@@ -4,7 +4,8 @@ import requests
 # Django
 from django.http import JsonResponse
 from django.conf import settings
-
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
 # Django REST Framework
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -26,6 +27,9 @@ from .serializers import (
     InstallmentOptionsSerializer,
     InstallmentDetailSerializer,
 )
+
+from accounts.serializers import UserSerializer
+from .recommend_system import recommend_system
 
 # API_KEY 환경변수에서 가져오기
 API_KEY = settings.FINLIFE_API_KEY
@@ -252,3 +256,109 @@ def get_product_detail(request, product_id):
         return Response(data, status=status.HTTP_200_OK)
     except (DepositProducts.DoesNotExist, InstallmentProducts.DoesNotExist):
         return JsonResponse({'error': '상품을 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['POST'])
+def recommend_finance(request,user_id):
+    User = get_user_model()
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        serialzier = UserSerializer(user)
+        gender = serialzier.data['gender']
+        age = serialzier.data['age']
+        investment_style = serialzier.data['investment_style']
+        annual_income = serialzier.data['annual_income']
+        savings_goal = serialzier.data['savings_goal']
+        mainbank = request.data['mainbank']
+        deposit_cnt = request.data['deposit_cnt']
+        savings_cnt = request.data['savings_cnt']
+        user_data = {
+            'user_id': user_id,
+            '예금가입상품수': deposit_cnt,
+            '적금가입상품수': savings_cnt,
+            '주거래은행': mainbank,
+            'investment_style': investment_style,
+            'annual_income':annual_income,
+            'savings_goal':savings_goal,
+            'age': age,
+            'gender': gender,
+        }
+        result = recommend_system(user_data)
+
+
+        # 첫번째 유사도 높은 사람 
+        similar_user1 = get_object_or_404(User, id=result[0])
+        serializer_user1 = UserSerializer(similar_user1)
+        user1_total_data = {}
+
+        user1_total_data['last_name'] = serializer_user1.data['last_name']
+        user1_total_data['gender'] = serializer_user1.data['gender']
+        user1_total_data['age'] = serializer_user1.data['age']
+        user1_total_data['depositproducts'] = []
+        user1_total_data['savingsproducts'] = []
+
+        depoist_products_ids = serializer_user1.data['deposit_products']
+        deposit_products = DepositProducts.objects.filter(id__in=depoist_products_ids)
+        for deposit_product in DepositProductsSerializer(deposit_products, many=True).data:
+            deposit_product_data = {'id': deposit_product['id'],'fin_prdt_nm': deposit_product['fin_prdt_nm'], 'kor_co_nm': deposit_product['kor_co_nm']}
+            user1_total_data['depositproducts'].append(deposit_product_data)
+        
+        savings_products_ids = serializer_user1.data['savings_products']
+        savings_products = InstallmentProducts.objects.filter(id__in=savings_products_ids)
+        for savings_product in InstallmentProductsSerializer(savings_products, many=True).data:
+            savings_products_data = {'id': savings_product['id'], 'fin_prdt_nm':savings_product['fin_prdt_nm'], 'kor_co_nm':savings_product['kor_co_nm']}
+            user1_total_data['savingsproducts'].append(savings_products_data)
+
+        # 두번째 유사도 높은 사람
+        similar_user2 = get_object_or_404(User, id=result[1])
+        serializer_user2 = UserSerializer(similar_user2)
+        user2_total_data = {}
+
+        user2_total_data['last_name'] = serializer_user2.data['last_name']
+        user2_total_data['gender'] = serializer_user2.data['gender']
+        user2_total_data['age'] = serializer_user2.data['age']
+        user2_total_data['depositproducts'] = []
+        user2_total_data['savingsproducts'] = []
+
+        depoist_products_ids = serializer_user2.data['deposit_products']
+        deposit_products = DepositProducts.objects.filter(id__in=depoist_products_ids)
+        for deposit_product in DepositProductsSerializer(deposit_products, many=True).data:
+            deposit_product_data = {'id': deposit_product['id'],'fin_prdt_nm': deposit_product['fin_prdt_nm'], 'kor_co_nm': deposit_product['kor_co_nm']}
+            user2_total_data['depositproducts'].append(deposit_product_data)
+        
+        savings_products_ids = serializer_user2.data['savings_products']
+        savings_products = InstallmentProducts.objects.filter(id__in=savings_products_ids)
+        for savings_product in InstallmentProductsSerializer(savings_products, many=True).data:
+            savings_products_data = {'id': savings_product['id'], 'fin_prdt_nm':savings_product['fin_prdt_nm'], 'kor_co_nm':savings_product['kor_co_nm']}
+            user2_total_data['savingsproducts'].append(savings_products_data)
+
+        # 세번째 유사도 높은 사람
+        similar_user3 = get_object_or_404(User, id=result[2])
+        serializer_user3 = UserSerializer(similar_user3)
+        user3_total_data = {}
+
+        user3_total_data['last_name'] = serializer_user3.data['last_name']
+        user3_total_data['gender'] = serializer_user3.data['gender']
+        user3_total_data['age'] = serializer_user3.data['age']
+        user3_total_data['depositproducts'] = []
+        user3_total_data['savingsproducts'] = []
+
+        depoist_products_ids = serializer_user3.data['deposit_products']
+        deposit_products = DepositProducts.objects.filter(id__in=depoist_products_ids)
+        for deposit_product in DepositProductsSerializer(deposit_products, many=True).data:
+            deposit_product_data = {'id': deposit_product['id'],'fin_prdt_nm': deposit_product['fin_prdt_nm'], 'kor_co_nm': deposit_product['kor_co_nm']}
+            user3_total_data['depositproducts'].append(deposit_product_data)
+        
+        savings_products_ids = serializer_user3.data['savings_products']
+        savings_products = InstallmentProducts.objects.filter(id__in=savings_products_ids)
+        for savings_product in InstallmentProductsSerializer(savings_products, many=True).data:
+            savings_products_data = {'id': savings_product['id'], 'fin_prdt_nm':savings_product['fin_prdt_nm'], 'kor_co_nm':savings_product['kor_co_nm']}
+            user3_total_data['savingsproducts'].append(savings_products_data)
+
+        data = {
+            'similar_user1': user1_total_data,
+            'similar_user2': user2_total_data,
+            'similar_user3': user3_total_data,
+        }
+
+
+        return JsonResponse(data)        
